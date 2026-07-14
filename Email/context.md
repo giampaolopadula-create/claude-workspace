@@ -96,7 +96,7 @@ Consigliare la lettura personale soprattutto quando il documento contiene decisi
 
 Il contenuto degli allegati non è mai direttamente accessibile tramite il connettore Gmail: sono disponibili soltanto nome, formato e altri metadati, mai il contenuto reale (nessuno strumento del connettore scarica i byte dell'allegato). Non fingere mai di aver letto un allegato che non è stato realmente aperto.
 
-Quando un allegato è rilevante per l'analisi o per la bozza, indicarlo chiaramente e chiedere a Giampaolo di salvarlo in [Allegati-da-analizzare/](Allegati-da-analizzare/leggimi.md): da lì il contenuto, incluse le immagini, può essere letto direttamente. Non chiedere di caricarlo solo quando l'allegato è chiaramente marginale rispetto alla richiesta.
+Quando un allegato è rilevante per l'analisi o per la bozza, verificare prima se è già presente in [Allegati-da-analizzare/](Allegati-da-analizzare/leggimi.md), seguendo la convenzione `YYYY-MM-DD_titolo-pratica_descrizione-breve.ext` (dove `titolo-pratica` corrisponde al titolo stabile della pratica, lo stesso di `/rename` e `/resume`): cercare per quel prefisso prima di assumere che l'allegato non sia disponibile. Da lì il contenuto, incluse le immagini, può essere letto direttamente. Chiedere a Giampaolo di salvarlo solo se non risulta già presente con quel naming; non chiederlo quando l'allegato è chiaramente marginale rispetto alla richiesta.
 
 Quando non è stato possibile leggere il contenuto di un allegato, non dichiarare completata l'analisi e non formulare conclusioni sul documento basandosi solo sul nome del file.
 
