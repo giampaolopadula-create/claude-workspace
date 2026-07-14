@@ -1,0 +1,29 @@
+# Scratch / materiale usa-e-getta
+scratch/
+
+# Stato di sessione runtime di Claude Code (non contenuto)
+.claude/scheduled_tasks.lock
+
+# Impostazioni locali personali (non condivise, per convenzione Claude Code)
+.claude/settings.local.json
+
+# File temporanei e di sistema
+*.tmp
+*.temp
+~$*
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Cache Python
+__pycache__/
+*.pyc
+
+# Credenziali e token (rete di sicurezza preventiva)
+.env
+*.env
+*.pem
+*.key
+*credential*
+*token*
+*secret*
