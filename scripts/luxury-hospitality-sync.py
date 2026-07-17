@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 import os
 import json
+import requests
 from pathlib import Path
-from anthropic import Anthropic
 
 def read_email_report():
     report_file = Path("Lavoro/Sales-Marketing/report-today.txt")
     return report_file.read_text() if report_file.exists() else None
 
 def analyze_with_claude(report_content, registry_content):
-    client = Anthropic(api_key=os.environ.get('ANTHROPIC_API_KEY'))
+    api_key = os.environ.get('ANTHROPIC_API_KEY')
+    
     prompt = f"""Analizza questo report e identifica elementi nuovi vs. duplicati.
 
 REPORT:
@@ -20,14 +21,25 @@ REGISTRY:
 
 Rispondi in JSON: {{"duplicates": [...], "new_items": [...], "summary": "..."}}"""
     
-    message = client.messages.create(
-        model="claude-opus-4-8",
-        max_tokens=512,
-        messages=[{"role": "user", "content": prompt}]
+    response = requests.post(
+        "https://api.anthropic.com/v1/messages",
+        headers={
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json"
+        },
+        json={
+            "model": "claude-opus-4-8",
+            "max_tokens": 512,
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
     )
     
     try:
-        text = message.content[0].text
+        data = response.json()
+        text = data['content'][0]['text']
         start = text.find('{')
         end = text.rfind('}') + 1
         return json.loads(text[start:end])
