@@ -74,3 +74,5 @@ Danilo Guerrini — nuovo GM Romazzino, Belmond Costa Smeralda (leadership movem
 Veronica Milo — nuovo GM Vivosa Apulia Resort (leadership movement)
 Follow-up: Gran Baita Cervinia cantiere avviato; FH55 Palatino seconda fase lavori; Ponte di Legno/AG Group piano esecutivo dettagliato; Marra Family Office funding 46,5M€ secured
 Contatti mappati oggi (non ancora attivati): Claudio Ceccherelli (Le Graal), Elisabetta Fabri (Starhotels), Alessandro Pietta (AG Group) — Claudio Catani già mappato in precedenza
+
+### 2026-07-17 11:59
