@@ -2,11 +2,47 @@
 import os
 import json
 import requests
+import imaplib
+import email
 from pathlib import Path
 
 def read_email_report():
-    report_file = Path("Lavoro/Sales-Marketing/report-today.txt")
-    return report_file.read_text() if report_file.exists() else None
+    """Legge il report da Gmail via IMAP."""
+    gmail_user = "giampaolopadula@gmail.com"
+    gmail_password = os.environ.get('GMAIL_APP_PASSWORD')
+    
+    try:
+        mail = imaplib.IMAP4_SSL('imap.gmail.com', 993)
+        mail.login(gmail_user, gmail_password)
+        mail.select('INBOX')
+        
+        status, messages = mail.search(None, 'SUBJECT', 'Report Luxury Hospitality Italia - giornaliero 03:00 IT — routine completed')
+        
+        if not messages[0]:
+            return None
+        
+        email_id = messages[0].split()[-1]
+        status, msg_data = mail.fetch(email_id, '(RFC822)')
+        
+        msg = email.message_from_bytes(msg_data[0][1])
+        
+        body = ""
+        if msg.is_multipart():
+            for part in msg.get_payload():
+                if part.get_content_type() == "text/plain":
+                    body = part.get_payload(decode=True).decode('utf-8')
+                    break
+        else:
+            body = msg.get_payload(decode=True).decode('utf-8')
+        
+        mail.close()
+        mail.logout()
+        
+        return body if body else None
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
 
 def analyze_with_claude(report_content, registry_content):
     api_key = os.environ.get('ANTHROPIC_API_KEY')
@@ -31,9 +67,7 @@ Rispondi in JSON: {{"duplicates": [...], "new_items": [...], "summary": "..."}}"
         json={
             "model": "claude-opus-4-8",
             "max_tokens": 512,
-            "messages": [
-                {"role": "user", "content": prompt}
-            ]
+            "messages": [{"role": "user", "content": prompt}]
         }
     )
     
