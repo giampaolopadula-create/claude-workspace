@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import os
+import json
 from pathlib import Path
 from anthropic import Anthropic
 
@@ -7,7 +9,7 @@ def read_email_report():
     return report_file.read_text() if report_file.exists() else None
 
 def analyze_with_claude(report_content, registry_content):
-    client = Anthropic()
+    client = Anthropic(api_key=os.environ.get('ANTHROPIC_API_KEY'))
     prompt = f"""Analizza questo report e identifica elementi nuovi vs. duplicati.
 
 REPORT:
@@ -28,7 +30,6 @@ Rispondi in JSON: {{"duplicates": [...], "new_items": [...], "summary": "..."}}"
         text = message.content[0].text
         start = text.find('{')
         end = text.rfind('}') + 1
-        import json
         return json.loads(text[start:end])
     except:
         return {"duplicates": [], "new_items": [], "summary": "Analysis done"}
