@@ -27,7 +27,6 @@ jobs:
 
       - name: Run luxury-hospitality-sync
         env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           python scripts/luxury-hospitality-sync.py
@@ -35,6 +34,7 @@ jobs:
       - name: Commit and push registry updates
         if: success()
         run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git config --local user.email "action@github.com"
           git config --local user.name "Luxury Hospitality Sync"
           git add Lavoro/Sales-Marketing/luxury-hospitality-report-registry.md
