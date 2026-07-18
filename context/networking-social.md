@@ -1,5 +1,11 @@
 # Networking e comunicazione sui canali social
 
+## Profili
+
+- LinkedIn: https://www.linkedin.com/in/giampaolo-padula-bb799a11/
+- Facebook: https://www.facebook.com/giampaolo.padula
+- Instagram: https://www.instagram.com/giampaolopadula/
+
 ## Messaggi privati
 
 I messaggi di networking possono essere rivolti a proprietari di hotel, investitori, imprenditori, CEO, dirigenti, head hunter, colleghi o altri interlocutori professionali.
@@ -28,9 +34,40 @@ Per il link da utilizzare quando viene concretamente proposto un appuntamento, a
 
 Su LinkedIn utilizzare un registro più professionale, argomentato e orientato al possibile valore reciproco.
 
-Su Instagram il tono può essere più immediato, personale e leggero, senza diventare superficiale, eccessivamente confidenziale o poco professionale.
+Su Facebook e Instagram il tono è più personale e diretto — più "Giampaolo", meno istituzionale — pur restando elegante e senza diventare superficiale o eccessivamente confidenziale.
 
 La piattaforma modifica la forma e il ritmo del messaggio, non la qualità della preparazione, della personalizzazione o della ricerca sull'interlocutore.
+
+## Stile per canale (personal branding)
+
+LinkedIn racconta il manager, Facebook racconta la persona, Instagram racconta il suo sguardo.
+
+### LinkedIn
+
+Il registro è quello di un executive del luxury hospitality: elegante, autorevole, riflessivo, orientato alle relazioni — mai aggressivo o commerciale. I risultati vengono sempre inseriti in un contesto più ampio (persone, esperienza dell'ospite, crescita professionale), non esposti come ostentazione.
+
+Caratteristiche principali:
+- Elegante e istituzionale: linguaggio curato, adatto a interlocutori senior (proprietà, CEO, head hunter), autorevole senza bisogno di alzare i toni.
+- Relazionale: ogni contenuto cerca un punto di contatto autentico con l'interlocutore (destinazione, progetto, visione, sensibilità condivisa).
+- Motivazionale ma concreto: temi come disciplina, crescita, resilienza, sempre ancorati all'esperienza manageriale reale, mai motivazione generica.
+- Coerente col mondo luxury: attenzione invisibile, qualità, autenticità, standard, anticipazione dei bisogni — il lusso raccontato come discrezione e precisione, non ostentazione.
+- Personale senza essere privato: passione e ambizione percepibili, ma sempre dentro un confine professionale.
+
+**Rischio da evitare**: l'eleganza può scivolare nel solenne quando le frasi sono troppo elaborate o accumulano troppi concetti insieme. Funziona meglio quando, dentro la raffinatezza, si inserisce anche una frase semplice, concreta, quasi parlata — è lì che diventa più credibile.
+
+### Facebook
+
+Personale, diretto, narrativo: più spontaneità, dimensione familiare, viaggi, quotidianità, pensieri di vita — tono curato ma meno istituzionale. È soprattutto spazio di relazione e condivisione, non costruzione consapevole di un'immagine professionale. Non ama l'esposizione eccessiva: preferisce mostrare momenti belli o significativi, evitando toni polemici, troppo intimi o disordinati.
+
+Sintesi: stile personale, elegante, rassicurante, con forte componente familiare ed esperienziale.
+
+### Instagram
+
+Prevale l'aspetto visivo: hotel, ristoranti, viaggi, montagne, dettagli raffinati, ambienti eleganti, momenti familiari significativi — seleziona ciò che merita di essere ricordato, non pubblica qualsiasi cosa. Comunica uno stile di vita legato a qualità, bellezza ed esperienze ben costruite, non ostentazione. Anche in vacanza mantiene lo sguardo dell'albergatore: nota ambienti, servizio, design, cibo, dettagli che ad altri sfuggirebbero.
+
+Sintesi: stile visivo raffinato, familiare e aspirazionale, legato a viaggio, ospitalità e piacere delle esperienze autentiche.
+
+**Rischio comune a Facebook e Instagram**: la ricerca naturale del momento o dell'immagine migliore può far apparire il profilo più patinato che spontaneo. La comunicazione diventa più forte quando, accanto a hotel/viaggi/momenti eleganti, entra anche qualcosa di più semplice e quotidiano — una riflessione breve, un dettaglio imperfetto, un piccolo retroscena: è ciò che rende l'eleganza più umana e credibile.
 
 ## Post pubblici
 
