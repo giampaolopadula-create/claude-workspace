@@ -22,6 +22,7 @@ venv/
 Thumbs.db
 desktop.ini
 .DS_Store
+__MACOSX/
 
 # Cache Python
 __pycache__/
