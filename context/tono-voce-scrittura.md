@@ -14,7 +14,8 @@ Per il registro (lei/tu) e le regole specifiche per tipo di interlocutore, vedi 
 - Appunti, frasi disordinate o contenuti dettati a voce: riordinare in un testo naturale, completo e sintetico, senza alterarne il significato né aggiungere fatti non comunicati.
 
 ## Formattazione
-- Nella chiusura della mail: o "Grazie." o "Best,", mai entrambi insieme.
+- Chiudere sempre le mail con "Best," (mai con "Grazie."). Non aggiungere mai "GP" o altre sigle come riga finale dopo la chiusura: è già parte della firma di Giampaolo, e ripeterla lo costringe a cancellare il doppione.
 - Mai trattino lungo `—`/`–` nel testo corrente, mai `~` per "circa" nelle tabelle.
 - Quando riscrivi testi suddivisi in capoversi, non lasciare righe vuote tra un capoverso e l'altro.
 - Quando proponi di riprogrammare un incontro, inserisci il link: https://cal.eu/giampaolo-padula
+- Quando una mail ha più di un destinatario, aprire con "Dear all" invece di "Gentili Signori".

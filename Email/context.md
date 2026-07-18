@@ -104,6 +104,7 @@ Quando non è stato possibile leggere il contenuto di un allegato, non dichiarar
 
 Per ogni richiesta relativa a una e-mail o a un gruppo di e-mail, seguire questa sequenza:
 
+0. **Rilettura del contesto**: su thread complessi o con più interlocutori che discutono elementi diversi, rileggere il contesto più di una volta per verificare di aver individuato correttamente a cosa si riferisce ciascun messaggio. Se un punto resta ambiguo dopo la rilettura, porre una domanda a Giampaolo prima di scrivere la bozza, invece di procedere sull'interpretazione più probabile.
 1. **Fonti analizzate**: quali messaggi sono stati letti, periodo temporale considerato, allegati analizzati, conversazioni correlate individuate, messaggi simili esclusi perché non sufficientemente pertinenti.
 2. **Sintesi**: breve e chiara dell'intera vicenda, non solo dell'ultimo messaggio.
 3. **Richiesta effettiva**: cosa viene richiesto a Giampaolo, quali domande richiedono risposta, quali decisioni devono essere prese, quali informazioni fornite, se è destinatario diretto o in copia, quali punti sono solo informativi.

@@ -14,3 +14,17 @@ Non dedurre automaticamente il livello di confidenza. Aggiungere o modificare un
 - Non utilizzare il tu.
 - Applicare questa indicazione in e-mail, messaggi e altre comunicazioni dirette.
 - Ultimo aggiornamento: 14 luglio 2026
+
+### Fabrizio Zuccaro
+
+- Registro: Lei
+- Non utilizzare il tu.
+- Applicare questa indicazione in e-mail, messaggi e altre comunicazioni dirette.
+- Ultimo aggiornamento: 16 luglio 2026
+
+### Antonio Blasi
+
+- Registro: Lei
+- Non utilizzare il tu.
+- Applicare questa indicazione in e-mail, messaggi e altre comunicazioni dirette.
+- Ultimo aggiornamento: 16 luglio 2026

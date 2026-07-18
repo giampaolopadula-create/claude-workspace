@@ -19,5 +19,7 @@ Per dati soggetti a variazione (prezzi, tassi, KPI, condizioni di mercato), indi
 ## Verifica prima di consegnare
 Verificare l'output reale (Excel, docx, report, grafici) prima di dire che è pronto — non fidarsi solo del codice/script che lo genera.
 
+Prima di consegnare un lavoro che richiede valutazione o giudizio (analisi, correzioni, verifiche, confronti), fare sempre un secondo controllo autonomo delle conclusioni a cui si è arrivati in un primo momento, non limitarsi alla prima lettura. Non possiamo permetterci di consegnare lavori sbagliati.
+
 ## Operazioni complesse su più file
 Prima di operazioni complesse su più file: proporre il piano e attendere conferma.

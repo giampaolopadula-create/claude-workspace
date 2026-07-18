@@ -1,6 +1,14 @@
 # Scratch / materiale usa-e-getta
 scratch/
 
+# Allegati e-mail scaricati temporaneamente per l'analisi (non permanenti, vedi leggimi.md)
+Email/Allegati-da-analizzare/*
+!Email/Allegati-da-analizzare/leggimi.md
+
+# Ambiente virtuale Python (rigenerabile, non da versionare)
+venv/
+.venv/
+
 # Stato di sessione runtime di Claude Code (non contenuto)
 .claude/scheduled_tasks.lock
 

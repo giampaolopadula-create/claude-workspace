@@ -221,17 +221,36 @@ data_table("Alleata Previdenza (PIP) vs D'Oro 2014",
 )
 
 p("**La regola chiave del PIP**: a 67 anni puoi prendere il 100% in capitale solo se la posizione resta "
-  "sotto ~€100.000 (soglia stimata da Alleanza). Continuando a versare €5.000/anno, la superi già nel "
-  "2031 — ma il diritto di chiedere qualsiasi liquidazione scatta **solo a 67 anni**, non quando la "
-  "posizione tocca €100.000 lungo il percorso. Per restare sotto soglia a 67 anni serve fermarsi con i "
-  "versamenti nel **2026-2027**.")
+  "sotto ~€100.000 (soglia stimata da Alleanza, che secondo Casetti può muoversi nel tempo). Continuando a "
+  "versare €5.000/anno, la superi già nel 2031 — ma il diritto di chiedere qualsiasi liquidazione scatta "
+  "**solo a 67 anni** (confermato per iscritto da Casetti il 15/07/2026), non quando la posizione tocca "
+  "€100.000 lungo il percorso. Non conta *quando* superi la soglia, conta solo il valore **a 67 anni**. "
+  "Casetti ha anche segnalato una possibile novità normativa: il tetto di capitale liquidabile potrebbe "
+  "essere salito dal 50% al **60%** (40% obbligatorio in rendita) — da verificare quale si applica al tuo "
+  "caso.")
+
+data_table("Scenari di stop dei versamenti — proiezione a 67 anni (solo rivalutazione, 1,4%/anno netto)",
+    ["Fermarsi a fine", "Posizione al momento dello stop", "Proiezione a 67 anni", "Esito"],
+    [
+        ["2026 (subito)", "€73.930", "≈ €91.100", "Sotto soglia — margine ≈ €8.900"],
+        ["2027", "€79.736", "≈ €96.900", "Sotto soglia — margine ≈ €3.100 (stretto)"],
+        ["2028", "€85.623", "≈ €102.600", "Sopra soglia — punto di non ritorno superato"],
+    ],
+    highlight={(0,3):'pos', (2,3):'neg'}
+)
+p("Il punto di non ritorno è tra fine 2027 e fine 2028: oltre quella data, anche fermandosi, la sola "
+  "rivalutazione porterebbe comunque la posizione sopra €100.000 a 67 anni. Fermarsi **subito (2026)** dà "
+  "il margine di sicurezza più ampio contro imprevisti (rendimento più alto del previsto, o soglia che si "
+  "abbassa nel tempo).")
 
 # ============================================================ §2 — CONFRONTO
-h2("§2", "Le tre opzioni a confronto")
-lede("Rendita vitalizia completa, contro le due strade per avere capitale libero. In tutti e tre gli "
-     "scenari D'Oro resta acceso fino alla sua scadenza naturale (2040, €62.000 garantiti) — non conviene "
-     "mai riscattarlo prima, perché quel valore include anche i premi ancora da versare, non solo la "
-     "crescita.")
+h2("§2", "Le due opzioni a confronto")
+lede("Rendita vitalizia completa, contro il Percorso legale per avere capitale libero. L'ipotesi “Uscita "
+     "2030” è stata **esclusa**: Casetti ha confermato per iscritto che il diritto a richiedere capitale o "
+     "rendita matura solo a 67 anni, quindi un prelievo pieno anticipato non è possibile. In entrambi gli "
+     "scenari restanti D'Oro resta acceso fino alla sua scadenza naturale (2040, €62.000 garantiti) — non "
+     "conviene mai riscattarlo prima, perché quel valore include anche i premi ancora da versare, non solo "
+     "la crescita.")
 
 h3("Come funziona ciascuna opzione")
 p("**Rendita vitalizia** — continui a versare €5.000/anno nel PIP fino a 67 anni (posizione €152.857), "
@@ -240,21 +259,20 @@ p("**Percorso legale** — fermi i versamenti PIP nel 2027 (resti sotto la sogli
   "resta bloccato al suo interno fino a 67 anni, quando lo ritiri per intero in capitale. Nel frattempo "
   "continui a pagare D'Oro (€2.500/anno) fino al 2040, e risparmi altri €2.500/anno per conto tuo in un "
   "conto deposito. Non richiede alcuna conferma da Alleanza: è sempre legale.")
-p("**Uscita 2030 (ipotetica)** — continui a versare nel PIP fino al 2030 (posizione €97.646), poi ne "
-  "ritiri l'intero importo — **ipotesi non confermata**, dipende dalla risposta di Alleanza sul prelievo "
-  "anticipato. D'Oro resta comunque acceso fino al 2040 come nel percorso legale. Dal 2031 investi "
-  "€2.500/anno in più (oltre al premio D'Oro) in un conto deposito.")
+p("**Uscita 2030 (ESCLUSA)** — prevedeva di continuare a versare nel PIP fino al 2030 (posizione "
+  "€97.646) e poi ritirarne l'intero importo. Casetti ha confermato che il diritto a liquidazione matura "
+  "solo a 67 anni: questa opzione **non è percorribile** e resta qui solo come riferimento storico.")
 
 data_table("Confronto sintetico",
-    ["Criterio", "Rendita vitalizia\n(continui fino a 67)", "Percorso legale\n(fermi PIP 2027)", "Uscita 2030\n(ipotetica)"],
+    ["Criterio", "Rendita vitalizia\n(continui fino a 67)", "Percorso legale\n(fermi PIP 2026-2027)"],
     [
-        ["Capitale / reddito a 67 anni", "€648/mese a vita", "€199.400 capitale", "€216.800 capitale"],
-        ["A €800/mese dura fino a", "n/a — fissa a €648/mese, non regolabile", "~95 anni", "~99 anni"],
-        ["Allo stesso importo, €648/mese, dura fino a", "sempre", "~105 anni", "~111 anni"],
-        ["Deduzione fiscale fino a", "67 anni", "2027", "2030"],
-        ["Trasferibile agli eredi", "No (salvo reversibilità)", "Sì, per intero", "Sì, per intero"],
-        ["Richiede conferma Alleanza", "No", "No", "Sì — non confermato"],
-        ["Costo annuo per te", "€5.000/anno fino a 67", "€7.500 fino al 2027 (di cui ~€2.150/anno restituiti da 730), poi €5.000 fino al 2040", "€7.500 fino al 2030 (di cui ~€2.150/anno restituiti da 730), poi €5.000 fino al 2040"],
+        ["Capitale / reddito a 67 anni", "€648/mese a vita", "€199.400 capitale (o ~€191.100 se ti fermi nel 2026, v. §1)"],
+        ["A €800/mese dura fino a", "n/a — fissa a €648/mese, non regolabile", "~95 anni"],
+        ["Allo stesso importo, €648/mese, dura fino a", "sempre", "~105 anni"],
+        ["Deduzione fiscale fino a", "67 anni", "2026 o 2027 (a seconda di quando ti fermi)"],
+        ["Trasferibile agli eredi", "No (salvo reversibilità)", "Sì, per intero"],
+        ["Richiede conferma Alleanza", "No", "No"],
+        ["Costo annuo per te", "€5.000/anno fino a 67", "€7.500 fino allo stop (di cui ~€2.150/anno restituiti da deduzione), poi €5.000 fino al 2040"],
     ],
 )
 
@@ -265,28 +283,22 @@ data_table("Percorso legale — €199.400",
     [
         ["PIP fermo dal 2027 (bloccato al suo rendimento fino a 67)", "€96.900", "49%"],
         ["D'Oro tenuto a scadenza 2040 (capitale minimo garantito)", "€62.000", "31%"],
-        ["€2.500/anno risparmiati in conto deposito dal 2028 al 2041 (14 anni, al 2,2%)", "€40.500", "20%"],
+        ["€2.500/anno risparmiati dal 2028 al 2041 (14 anni, al 2,2% netto medio — non esistono conti deposito con vincolo unico così lungo: serve una serie di depositi scaglionati/rinnovati ogni 2-5 anni, non un unico conto a 14 anni)", "€40.500", "20%"],
         ["Totale a 67 anni", "€199.400", "100%"],
     ],
     highlight={(3,1):'accent'}
 )
 
-data_table("Uscita 2030 (ipotetica) — €216.800",
-    ["Componente", "Valore a 67 anni", "% del totale"],
-    [
-        ["PIP ritirato nel 2030 (€97.646), investito 11 anni al 2,2%", "€124.100", "57%"],
-        ["D'Oro tenuto a scadenza 2040 (capitale minimo garantito, invariato)", "€62.000", "29%"],
-        ["€2.500/anno investiti dal 2031 al 2041 (11 anni, al 2,2%)", "€30.700", "14%"],
-        ["Totale a 67 anni", "€216.800", "100%"],
-    ],
-    highlight={(3,1):'accent'}
-)
+small("Nota: la tabella “Uscita 2030” (€216.800) presente nelle versioni precedenti di questo documento è "
+      "stata rimossa — Casetti ha confermato che il prelievo pieno anticipato non è possibile, quindi quello "
+      "scenario non è più percorribile.")
 
 callout("Tenere D'Oro fino al 2040 è una scelta di sicurezza, non di rendimento massimo", [
     "A parità di soldi versati, riscattare D'Oro nel 2030 (~€35.000) e investire anche i €2.500/anno "
-    "successivi in conto deposito darebbe circa **€75.200** entro il 2041 — più dei €62.000 del capitale "
-    "minimo garantito a scadenza. Il “minimo garantito” di D'Oro, infatti, è quasi un pareggio puro con la "
-    "somma dei premi totali versati: da solo non batte nemmeno l'inflazione.",
+    "successivi (in una serie di conti deposito scaglionati/rinnovati, non un unico vincolo di 11 anni — "
+    "non esistono conti deposito con durata così lunga) darebbe circa **€75.200** entro il 2041 — più dei "
+    "€62.000 del capitale minimo garantito a scadenza. Il “minimo garantito” di D'Oro, infatti, è quasi un "
+    "pareggio puro con la somma dei premi totali versati: da solo non batte nemmeno l'inflazione.",
     "**Perché nell'esploso tengo comunque D'Oro fino al 2040**: è la scelta più sicura e tranquilla, non "
     "quella che massimizza il rendimento atteso. D'Oro garantisce un pavimento contro rendimenti negativi "
     "e paga il capitale ai beneficiari fuori successione e rapidamente in caso di decesso — una protezione "
@@ -317,16 +329,32 @@ p("Il pareggio è a **~91 anni**. Prima di quell'età, ogni anno di vita in meno
 doc.add_page_break()
 h2("Sintesi", "Cosa fare, in ordine")
 
-callout("1 — Nessuna azione richiesta prima del 2027", [
-    "Continuare come oggi (€5.000 PIP + €2.500 D'Oro) è coerente con tutte le strade possibili almeno fino "
-    "al 2026-2027."
+callout("1 — Decisione presa: Percorso legale, fermarsi con i versamenti PIP entro il 2026-2027", [
+    "L'ipotesi Uscita 2030 è esclusa (v. §2). Fermarsi **subito (2026)** dà il margine di sicurezza più "
+    "ampio (~€8.900 sotto soglia a 67 anni) contro imprevisti; aspettare fino al 2027 resta sicuro ma con "
+    "margine più stretto (~€3.100). Oltre il 2027-2028 il punto di non ritorno è superato (v. §1)."
 ], shade=SHADE_INFO, label_color=ACCENT)
 
-callout("2 — Servono due risposte scritte da Casetti prima di decidere", [
-    "**a)** Il prelievo del 100% della posizione PIP sotto soglia è possibile solo a 67 anni, o anche prima "
-    "se la posizione resta sotto €100.000? (Se sì → Uscita 2030, €216.800. Se no → Percorso legale, €199.400.)",
-    "**b)** Una volta iniziata l'erogazione, la rendita resta fissa o si rivaluta nel tempo?",
-    "**c)** Qual è il coefficiente della rendita reversibile a favore di Megumi?"
+callout("2 — Risposte ricevute da Casetti (15/07/2026)", [
+    "**a)** Confermato: il diritto a capitale/rendita matura solo a 67 anni, mai prima — Uscita 2030 esclusa.",
+    "**b)** Confermato che la rendita **si rivaluta** nel tempo, ma senza specificare il meccanismo/indice.",
+    "**c)** Coefficiente di reversibilità per Megumi: **ancora non fornito** — Casetti dice di aver bisogno "
+    "di un'ipotesi di durata (fino a quando tu e poi Megumi percepireste la rendita) per calcolarlo.",
+    "Informazione nuova non richiesta: il tetto di capitale liquidabile potrebbe essere salito dal 50% al "
+    "**60%** per una possibile novità di legge di bilancio — da confermare quale si applica al tuo caso."
+], shade=SHADE_WARN, label_color=NEG)
+
+callout("2bis — Domande ancora senza risposta numerica, da chiudere nell'incontro di persona", [
+    "Rendita netta mensile reale a 67 anni (mai fornito un importo in euro).",
+    "Importo netto per te e per Megumi con la reversibilità attiva.",
+    "Perché il capitale minimo garantito D'Oro (€62.077,86) è inferiore alla somma dei premi attesi "
+    "(€62.500) — nessuna spiegazione ricevuta.",
+    "Scomposizione della perdita di €3.900 in caso di riscatto D'Oro (caricamenti / copertura / penale) e "
+    "anno o valore in cui il riscatto tornerebbe in pareggio con i premi versati — ricevuta solo una "
+    "spiegazione generale (l'uscita anticipata rispetto alla durata pattuita concentra i costi), nessun "
+    "numero o data.",
+    "Coefficiente di conversione corretto (4,19% vs 5,772% nel documento) e capitale minimo garantito a 67 "
+    "anni sul PIP."
 ], shade=SHADE_WARN, label_color=NEG)
 
 callout("3 — In entrambi gli scenari di capitale libero, la rendita vitalizia conviene solo oltre i 95-99 anni", [
