@@ -1,6 +1,7 @@
 ---
-name: carica-contesto
+name: gm-mail
 description: Carica esplicitamente il contesto locale di un'area del workspace (Lavoro, Email) in qualsiasi momento della conversazione, anche quando il caricamento automatico non è ancora scattato. Usare quando l'argomento richiede contesto locale (es. rispondere a una mail che riguarda temi alberghieri) senza necessariamente leggere un file di quella cartella.
+argument-hint: [lavoro|email|lavoro email]
 ---
 
 # Carica contesto
@@ -15,7 +16,7 @@ area: $ARGUMENTS (una o più tra: lavoro, email — separate da spazio)
 
 ### Caso 1: nessun argomento
 
-Chiedi quale area caricare tra quelle disponibili: Lavoro, Email.
+Carica entrambe le aree di default (Lavoro ed Email), senza chiedere quale.
 
 ### Caso 2: area specificata
 
