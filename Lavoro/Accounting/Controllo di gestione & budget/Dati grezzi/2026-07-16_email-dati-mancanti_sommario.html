@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analisi e-mail — Dati mancanti (almeno x me): revenue mix per canale e budget S&M storico</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --dark: #1f2937;
+  --light: #f3f4f6;
+  --border: #e5e7eb;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--dark);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #f0f0f0;
+  }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: #1f2937;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  }
+}
+
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.header p {
+  font-size: 14px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.content {
+  padding: 40px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .content {
+    background: #1f2937;
+  }
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--primary);
+  display: inline-block;
+}
+
+@media (prefers-color-scheme: dark) {
+  .section-title {
+    color: var(--primary-light);
+    border-bottom-color: var(--primary-light);
+  }
+}
+
+.code-block {
+  background: #f0f1ff;
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  color: #5a4a8f;
+  margin: 15px 0;
+  overflow-x: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .code-block {
+    background: #111827;
+    color: #a0aec0;
+    border-left-color: var(--primary-light);
+  }
+}
+
+.highlight-box {
+  background: #fef3c7;
+  border-left: 4px solid var(--warning);
+  padding: 16px;
+  border-radius: 6px;
+  margin: 20px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .highlight-box {
+    background: rgba(217, 119, 6, 0.15);
+    border-left-color: var(--warning);
+  }
+}
+
+.highlight-box strong {
+  color: var(--warning);
+}
+
+.critical {
+  background: #fee2e2;
+  border-left: 4px solid var(--danger);
+}
+
+@media (prefers-color-scheme: dark) {
+  .critical {
+    background: rgba(220, 38, 38, 0.15);
+    border-left-color: var(--danger);
+  }
+}
+
+.critical strong {
+  color: var(--danger);
+}
+
+ul, ol {
+  margin-left: 20px;
+  margin-top: 12px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 4px 4px 4px 0;
+}
+
+.status-open {
+  background: #dbeafe;
+  color: #0c4a6e;
+}
+
+@media (prefers-color-scheme: dark) {
+  .status-open {
+    background: rgba(30, 144, 255, 0.2);
+    color: #93c5fd;
+  }
+}
+
+.status-critical {
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+@media (prefers-color-scheme: dark) {
+  .status-critical {
+    background: rgba(220, 38, 38, 0.2);
+    color: #fca5a5;
+  }
+}
+
+.status-waiting {
+  background: #fef3c7;
+  color: #78350f;
+}
+
+@media (prefers-color-scheme: dark) {
+  .status-waiting {
+    background: rgba(217, 119, 6, 0.2);
+    color: #fed7aa;
+  }
+}
+
+.timeline {
+  margin-top: 20px;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--light);
+  border-radius: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .timeline-item {
+    background: #374151;
+  }
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.timeline-content h4 {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .timeline-content h4 {
+    color: var(--primary-light);
+  }
+}
+
+.timeline-content p {
+  font-size: 14px;
+  color: var(--dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  .timeline-content p {
+    color: #e5e7eb;
+  }
+}
+
+.quote-block {
+  background: #f0f1ff;
+  border-left: 4px solid var(--primary);
+  padding: 20px;
+  border-radius: 6px;
+  margin: 20px 0;
+  font-style: italic;
+  color: #5a4a8f;
+}
+
+@media (prefers-color-scheme: dark) {
+  .quote-block {
+    background: #111827;
+    color: #a0aec0;
+    border-left-color: var(--primary-light);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.card {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #374151;
+    border-color: #4b5563;
+  }
+}
+
+.card h3 {
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card h3 {
+    color: var(--primary-light);
+  }
+}
+
+.card p {
+  font-size: 13px;
+}
+
+.footer {
+  background: var(--light);
+  padding: 20px 40px;
+  text-align: center;
+  font-size: 12px;
+  color: #6b7280;
+  border-top: 1px solid var(--border);
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    background: #111827;
+    border-top-color: #4b5563;
+    color: #9ca3af;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>📊 Dati mancanti</h1>
+    <p>Revenue mix per canale e budget S&M storico — Analisi richiesta e risposta parziale</p>
+  </div>
+
+  <div class="content">
+
+    <section>
+      <h2 class="section-title">📁 Sessione</h2>
+      <p style="margin-bottom: 15px;">Per rinominare ora la sessione:</p>
+      <div class="code-block">/rename Email — Dati mancanti (almeno x me): revenue mix per canale e budget S&M storico</div>
+      <p style="margin-bottom: 15px; margin-top: 20px;">Per ritrovare e riaprire la sessione in futuro:</p>
+      <div class="code-block">/resume Email — Dati mancanti (almeno x me): revenue mix per canale e budget S&M storico</div>
+    </section>
+
+    <section>
+      <h2 class="section-title">🎯 Focus dell'analisi</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>📅 Data dell'analisi</h3>
+          <p>16 luglio 2026</p>
+        </div>
+        <div class="card">
+          <h3>⏱️ Periodo consultato</h3>
+          <p>Una sola conversazione, scambio lo stesso giorno</p>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 20px; margin-bottom: 10px; font-weight: 600; color: #374151;">Messaggi analizzati:</h4>
+      <ul style="margin-left: 20px;">
+        <li>Mail inviata da <strong>Giampaolo</strong> il 16/07/2026 alle <strong>16:03</strong> (ora italiana) a Sara Prontera e Luca Epifani</li>
+        <li>Risposta di <strong>Sara Prontera</strong> il 16/07/2026 alle <strong>16:20</strong> (ora italiana)</li>
+      </ul>
+      <p style="margin-top: 15px; padding: 12px; background: var(--light); border-radius: 6px; font-size: 13px;">
+        <strong>Allegati:</strong> firma aziendale e loghi in entrambi i messaggi, nessun allegato di dati
+      </p>
+    </section>
+
+    <section>
+      <h2 class="section-title">⚡ Ultimi aggiornamenti</h2>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>📤 Richiesta di Giampaolo (16/07 16:03)</h4>
+            <p>Due blocchi di dati necessari per completare l'analisi S&M:</p>
+            <ol style="margin: 10px 0; margin-left: 20px;">
+              <li><strong>Revenue mix per canale (storico)</strong> — ripartizione fatturato per canale (diretto, tour operator, OTA, consortia) + CAC</li>
+              <li><strong>Budget S&M storico e risultati</strong> — investimento negli ultimi esercizi + ROI per iniziativa + cosa ha performato</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>📥 Risposta di Sara Prontera (16/07 16:20)</h4>
+            <p><span class="status-badge status-waiting">Parziale</span></p>
+            <p style="margin-top: 8px;">Risponde solo su budget marketing, non su revenue mix:</p>
+            <ul style="margin: 10px 0; margin-left: 20px;">
+              <li><strong>2024:</strong> primo budget marketing per Pigest separato da TO. Proposta non discussa né revisionata.</li>
+              <li><strong>2025:</strong> budget presentato €1M+, tagliato a €300k. Taglio <strong>non discusso né formalmente approvato</strong> — solo consuntivo a fine anno.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="critical highlight-box">
+        <strong>⚠️ Nota cruciale:</strong> Luca Epifani è destinatario ma non ha risposto. Sara ha risposto solo su budget, non su revenue mix per canale né su ROI/performance.
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">📚 Contesto storico essenziale</h2>
+
+      <p>Giampaolo sta costruendo un'analisi S&M per Cervinia che richiede due dataset critici per giudicare qualsiasi piano commerciale futuro (emerso dalla baseline S&M precedente):</p>
+      <ul style="margin-top: 12px;">
+        <li><strong>Revenue breakdown per canale</strong> → necessario per calcolare CAC reale e valutare mix distributivo</li>
+        <li><strong>Budget S&M storico + ROI</strong> → necessario per capire cosa ha funzionato, quanto è stato speso, quale è il reale ROI</li>
+      </ul>
+      <div class="highlight-box" style="margin-top: 20px;">
+        Senza questi dati, qualsiasi piano S&M rimane scollegato dai numeri reali (produttività dei canali, costo di acquisizione, ritorno degli investimenti).
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">✅ Cosa viene richiesto a Giampaolo</h2>
+      <div class="card" style="background: #dbeafe;">
+        <h3 style="color: var(--primary);">Azione immediata</h3>
+        <p>Nessuna richiesta urgente ancora. Sara ha fornito una risposta parziale; Luca non ha ancora risposto.</p>
+      </div>
+      <div class="card" style="background: #fef3c7; margin-top: 15px;">
+        <h3 style="color: var(--warning);">Azione probabile</h3>
+        <p>Quando Sara e/o Luca rispondono completamente:</p>
+        <ul style="margin: 10px 0;">
+          <li>Valutare se i dati sono sufficienti per completare l'analisi S&M</li>
+          <li>Eventualmente fare follow-up più specifico se le risposte rimangono frammentarie</li>
+        </ul>
+      </div>
+      <div class="card" style="background: #fee2e2; margin-top: 15px;">
+        <h3 style="color: var(--danger);">Status corrente</h3>
+        <p><span class="status-badge status-open">IN ATTESA</span></p>
+        <p style="margin-top: 8px;">Risposta completa da Sara (revenue mix, ROI) e risposta da Luca (non ha ancora risposto)</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">🤝 Posizioni espresse</h2>
+
+      <p>Non ci sono posizioni contrastanti nel thread. Sara risponde solo su budget, ma non affronta il revenue mix per canale né i risultati ROI. Non è una divergenza, è un'omissione di parte della richiesta.</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">⚠️ Criticità e punti aperti</h2>
+
+      <div class="critical highlight-box" style="margin-bottom: 20px;">
+        <h3 style="color: var(--danger); margin-bottom: 10px;">🔴 Punto 1 – Budget S&M: nessuna gestione formale</h3>
+        <ul style="margin: 10px 0; margin-left: 20px;">
+          <li>Nel 2024 è stato proposto di separare i costi S&M di Pigest (Cervinia) da quelli di TO, ma la proposta non è stata discussa.</li>
+          <li>Nel 2025 il budget richiesto (€1M+) è stato tagliato a €300k, ma il taglio non è stato <strong>né discusso né formalmente approvato</strong>.</li>
+        </ul>
+        <p style="margin-top: 10px; padding: 10px; background: rgba(239, 68, 68, 0.1); border-radius: 4px;"><strong>💡 Implicazione:</strong> il budget S&M di Cervinia opera senza una strategia approvata — è stato richiesto solo "consuntivo a fine anno".</p>
+      </div>
+
+      <div class="critical highlight-box" style="margin-bottom: 20px;">
+        <h3 style="color: var(--danger); margin-bottom: 10px;">🔴 Punto 2 – Revenue mix per canale: Sara non ha risposto</h3>
+        <ul style="margin: 10px 0; margin-left: 20px;">
+          <li>Giampaolo ha chiesto il revenue mix per canale e il CAC per canale.</li>
+          <li>Sara non ha affrontato questo punto — ha risposto solo su budget complessivo.</li>
+        </ul>
+        <p style="margin-top: 10px; padding: 10px; background: rgba(239, 68, 68, 0.1); border-radius: 4px;"><strong>💡 Implicazione:</strong> il dato potrebbe non essere disponibile, o Sara non lo gestisce — potrebbe aver bisogno di coinvolgere Luca.</p>
+      </div>
+
+      <div class="critical highlight-box" style="margin-bottom: 20px;">
+        <h3 style="color: var(--danger); margin-bottom: 10px;">🔴 Punto 3 – ROI delle iniziative: non quantificato</h3>
+        <ul style="margin: 10px 0; margin-left: 20px;">
+          <li>Giampaolo ha chiesto ROI per tipologia di iniziativa.</li>
+          <li>Sara ha dato solo il numero lordo del budget (€1M+ → €300k).</li>
+        </ul>
+        <p style="margin-top: 10px; padding: 10px; background: rgba(239, 68, 68, 0.1); border-radius: 4px;"><strong>💡 Implicazione:</strong> il sistema di tracking dei risultati S&M potrebbe non essere sofisticato a livello di Cervinia.</p>
+      </div>
+
+      <div class="critical highlight-box">
+        <h3 style="color: var(--danger); margin-bottom: 10px;">🔴 Punto 4 – Luca Epifani non ha risposto</h3>
+        <ul style="margin: 10px 0; margin-left: 20px;">
+          <li>La mail è stata inviata a Sara E Luca (destinatari diretti).</li>
+          <li>Solo Sara ha risposto.</li>
+        </ul>
+        <p style="margin-top: 10px; padding: 10px; background: rgba(239, 68, 68, 0.1); border-radius: 4px;"><strong>💡 Implicazione:</strong> potrebbe essere il proprietario dei dati sul revenue mix per canale.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">💼 Raccomandazione</h2>
+      <p style="margin-bottom: 20px;">Aprire un follow-up veloce con Sara e Luca, diviso in due parti:</p>
+
+      <div class="card" style="margin-bottom: 15px; border-left: 4px solid var(--primary);">
+        <h3>A Sara</h3>
+        <p>Chiederle di completare con i dati mancanti sul revenue mix per canale e ROI per iniziativa. Se non li gestisce direttamente, chiedere chi ne è proprietario (probabilmente Luca).</p>
+      </div>
+
+      <div class="card" style="margin-bottom: 15px; border-left: 4px solid var(--primary);">
+        <h3>A Luca</h3>
+        <p>Se è il proprietario del revenue mix per canale (probabile), chiedere: ripartizione fatturato per canale, CAC per canale, dati storici ultimi 2-3 esercizi.</p>
+      </div>
+
+      <div class="highlight-box">
+        <strong>Perché:</strong> Sara ha info su budget/costi, ma non su revenue/canali. Sono due lati diversi. Senza revenue mix e CAC, l'analisi S&M rimane incompleta.
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">✉️ Bozza di risposta</h2>
+      <p style="font-size: 13px; margin-bottom: 15px; color: #6b7280;"><em>Una risposta non è strettamente necessaria ora (Sara ha risposto parzialmente, Luca non ha risposto). Ma per accelerare:</em></p>
+
+      <div class="quote-block">
+Ciao Sara, ciao Luca,<br>
+<br>
+grazie Sara per la velocità sulla parte budget. Due precisazioni per accelerare:<br>
+<br>
+1. <strong>Revenue mix per canale</strong> (diretto, OTA, tour operator, consortia) + CAC per canale — fondamentale per valutare l'efficienza. Chi è proprietario? Luca?<br>
+<br>
+2. <strong>ROI per iniziativa</strong> (non solo budget totale) — mi serve sapere cosa ha funzionato negli ultimi esercizi. Se non è tracciato per iniziativa, anche una valutazione qualitativa tra i canali sarebbe utile.<br>
+<br>
+3. Capito che il budget 2025 non è stato formalmente revisionato dopo il taglio a €300k — valutiamo insieme come strutturarlo per il 2026/2027 una volta che abbiamo il quadro completo.<br>
+<br>
+Se potete, fatemi sapere entro metà settimana così chiudo l'analisi.<br>
+<br>
+Grazie,<br>
+Gp
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">📎 Allegati e punti aperti</h2>
+      <p style="margin-bottom: 20px;"><strong>Allegati:</strong> nessuno scambiato di dati. Solo firma aziendale in entrambi i messaggi (non rilevante).</p>
+
+      <h3 style="font-weight: 600; margin-bottom: 15px; color: var(--dark);">Punti aperti — ordine di criticità:</h3>
+      <ol style="margin-left: 20px;">
+        <li><span class="status-badge status-critical">CRITICO</span> <strong>Revenue mix per canale</strong> — non ricevuto. Fattore bloccante per l'analisi S&M completa.</li>
+        <li><span class="status-badge status-critical">CRITICO</span> <strong>CAC per canale</strong> — non ricevuto. Necessario per valutare efficienza distribuzione.</li>
+        <li><span class="status-badge status-open">IMPORTANTE</span> <strong>ROI per iniziativa</strong> — non ricevuto. Necessario per capire cosa ha funzionato negli anni passati.</li>
+        <li><span class="status-badge status-waiting">MODERATO</span> <strong>Risposta da Luca Epifani</strong> — non ancora arrivata.</li>
+        <li><span class="status-badge status-waiting">FOLLOW-UP</span> <strong>Budget S&M 2026/2027</strong> — non discusso formalmente. Tema da affrontare una volta che i dati sono disponibili.</li>
+      </ol>
+    </section>
+  </div>
+
+  <div class="footer">
+    📊 Analisi e-mail — 16 luglio 2026 | Dati mancanti per baseline S&M Cervinia
+  </div>
+</div>
+
+</body>
+</html>

@@ -26,7 +26,7 @@ Evita argomenti ovvi o sfruttati (es. "importanza del servizio", "centralità de
 
 Prima di scrivere, cerca sul web fonti autorevoli e recenti del settore hospitality. Priorità a: eHotelier, Hospitality Net, Hotel Management, Skift, STR, Deloitte Hospitality, McKinsey Travel & Hospitality, HVS, CBRE Hotels, CoStar/STR, PhocusWire, Boutique Hotel News, Hotel Dive, Travel Weekly, Hospitality Investor.
 
-- Il contenuto deve nascere da almeno una fonte reale, recente e pertinente — preferire pubblicazioni degli ultimi 30-90 giorni; un report più ampio (fino a 12 mesi) solo se offre un insight forte e ancora attuale.
+- Il contenuto deve nascere da almeno una fonte reale, recente e pertinente — preferire pubblicazioni degli ultimi 10-20 giorni; un report più ampio (fino a 12 mesi) solo se offre un insight forte e ancora attuale.
 - Cita la fonte nel post in modo leggero e naturale (es. "According to a recent insight published by eHotelier…", "Un recente approfondimento pubblicato da Hospitality Net mette in evidenza…").
 - Mai link nel post, mai citazioni accademiche, mai tono da report tecnico, mai fonti inventate o non realmente consultate.
 
@@ -35,6 +35,10 @@ Prima di scrivere, cerca sul web fonti autorevoli e recenti del settore hospital
 Il post deve contenere almeno uno tra: un dato poco noto; un trend emergente; una tecnica manageriale nuova o poco discussa; una tensione reale tra operation/owner/ospiti/team; una lettura controintuitiva; una domanda strategica che un GM dovrebbe porsi; un dettaglio operativo che normalmente resta invisibile; un cambiamento recente nel comportamento di ospiti, collaboratori o investitori.
 
 Prima di scrivere, chiediti: "Questo post dice qualcosa che il lettore probabilmente non ha già letto dieci volte?" Se la risposta è no, cambia angolo.
+
+## 3bis. Segnale executive (senza mai renderlo esplicito)
+
+Quando è naturale rispetto al tema del giorno, il post deve lasciar trasparire almeno uno tra: capacità di leggere il business oltre l'operatività quotidiana (logica da owner/investitore), visione applicabile a più strutture o a un gruppo, lettura di mercato o di settore, giudizio manageriale che regge il confronto con chi guida organizzazioni complesse. Mai come dichiarazione diretta ("sono pronto per…", "cerco nuove sfide"): sempre come sostanza del ragionamento esposto.
 
 ## 4. Struttura obbligatoria dell'output
 
@@ -56,6 +60,8 @@ Tono: professionale, autorevole, elegante, concreto, internazionale, umano — m
 
 Evita frasi generiche come "hospitality is all about people", "luxury is in the details", "the guest is at the center", "leadership means inspiring others", "today more than ever" — usabili solo se ribaltate, approfondite o collegate a un insight concreto.
 
+Il post deve poter essere letto anche da chi valuta profili executive per ruoli, progetti o collaborazioni — proprietà, gruppi alberghieri, investitori, head hunter — e percepire standing, ampiezza di visione e capacità di ragionare a livello di gruppo/investimento, non solo di singola struttura. Questo non deve mai tradursi in autopromozione, riferimenti alla propria disponibilità o linguaggio da candidatura: il segnale è nella qualità del pensiero, mai dichiarato.
+
 ## 7. Hashtag
 
 Alla fine di ciascuna versione linguistica, senza scrivere mai "Hashtag:". Massimo 5 per lingua, pertinenti, sobri, professionali.
@@ -69,7 +75,8 @@ Verifica sempre, correggendo automaticamente se necessario:
 - lunghezza entro 1.350 caratteri per lingua (e non sotto i 900);
 - inglese prima dell'italiano;
 - hashtag presenti ma sobri (massimo 5 per lingua);
-- tono coerente con un profilo da General Manager di hotel di lusso.
+- tono coerente con un profilo da General Manager di hotel di lusso;
+- il post, oltre al valore editoriale, lascia intravedere standing executive e ampiezza di visione, senza mai sembrare autopromozionale o una ricerca di opportunità.
 
 ## 9. Obiettivo editoriale
 

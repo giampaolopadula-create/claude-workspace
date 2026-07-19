@@ -19,3 +19,4 @@ Per il registro (lei/tu) e le regole specifiche per tipo di interlocutore, vedi 
 - Quando riscrivi testi suddivisi in capoversi, non lasciare righe vuote tra un capoverso e l'altro.
 - Quando proponi di riprogrammare un incontro, inserisci il link: https://cal.eu/giampaolo-padula
 - Quando una mail ha più di un destinatario, aprire con "Dear all" invece di "Gentili Signori".
+- Ogni volta che consegno il testo di una mail, indicare sempre anche l'oggetto proposto.
