@@ -99,19 +99,26 @@ def analyze_report_and_update_registry(report_markdown, current_registry):
 REPORT OGGI:
 {report_markdown}
 
-REGISTRY ATTUALE:
+REGISTRY ATTUALE (elementi gia' segnalati):
 {current_registry}
 
-COMPITO:
-1. Identifica quali elementi (P1, P2, P3, leadership, contatti) sono GIA' SEGNALATI nel registry (duplicati)
-2. Identifica quali elementi sono NUOVI
-3. Aggiorna il registry: aggiungi i duplicati sotto ELEMENTI GIA' SEGNALATI se non presenti
+COMPITO CRITICO:
+1. LEGGI il registry attuale e identifica TUTTI gli elementi gia' segnalati (nomi hotel, contatti, progetti, leadership movements)
+2. CONFRONTA il report di oggi con il registry
+3. ESCLUDI COMPLETAMENTE dal report tutti gli elementi che sono gia' nel registry (duplicati)
+4. TIENI SOLO i nuovi elementi che NON sono nel registry
+5. AGGIORNA il registry: aggiungi il timestamp di oggi e i nuovi elementi SOLTANTO
+
+REGOLA FONDAMENTALE:
+- Se "Danilo Guerrini" e' gia' nel registry come "GM Belmond Romazzino", NON va incluso di nuovo
+- Se "Hotel Eden Roma" e' gia' nel registry, NON va incluso di nuovo
+- Solo gli elementi COMPLETAMENTE NUOVI vanno aggiunti
 
 RISPONDI CON JSON:
 {{
-  "duplicates_count": <numero>,
-  "new_items": [<lista elementi nuovi>],
-  "updated_registry": "<contenuto completo aggiornato>",
+  "duplicates_count": <numero elementi esclusi perche' gia' nel registry>,
+  "new_items": [<lista SOLO elementi nuovi non nel registry>],
+  "updated_registry": "<contenuto completo del registry con SOLO i nuovi elementi aggiunti>",
   "notes": "<breve note>"
 }}"""
 
