@@ -99,27 +99,32 @@ def analyze_report_and_update_registry(report_markdown, current_registry):
 REPORT OGGI:
 {report_markdown}
 
-REGISTRY ATTUALE (elementi gia' segnalati):
+REGISTRY ATTUALE (notizie gia' segnalate):
 {current_registry}
 
-COMPITO CRITICO:
-1. LEGGI il registry attuale e identifica TUTTI gli elementi gia' segnalati (nomi hotel, contatti, progetti, leadership movements)
+COMPITO CRITICO - ESCLUDERE SOLO LE NEWS DUPLICATE, NON I CONTATTI:
+1. LEGGI il registry e identifica le NOTIZIE GIA' SEGNALATE (es: "Danilo Guerrini → GM Romazzino")
 2. CONFRONTA il report di oggi con il registry
-3. ESCLUDI COMPLETAMENTE dal report tutti gli elementi che sono gia' nel registry (duplicati)
-4. TIENI SOLO i nuovi elementi che NON sono nel registry
-5. AGGIORNA il registry: aggiungi il timestamp di oggi e i nuovi elementi SOLTANTO
+3. ESCLUDI solo le notizie/eventi che sono IDENTICI o PRATICAMENTE IDENTICI a quelli nel registry
+4. INCLUDI tutte le notizie NUOVE sullo stesso contatto/albergo (es: se oggi c'è una nuova notizia su Danilo Guerrini, va inclusa!)
+5. AGGIORNA il registry: aggiungi SOLO le notizie nuove
 
-REGOLA FONDAMENTALE:
-- Se "Danilo Guerrini" e' gia' nel registry come "GM Belmond Romazzino", NON va incluso di nuovo
-- Se "Hotel Eden Roma" e' gia' nel registry, NON va incluso di nuovo
-- Solo gli elementi COMPLETAMENTE NUOVI vanno aggiunti
+REGOLA FONDAMENTALE (IMPORTANTE):
+- "Danilo Guerrini → GM Romazzino" (17 luglio) = VECCHIA NEWS, non ripetere
+- Ma "Danilo Guerrini in cerca di nuovo ruolo" (18 luglio) = NUOVA NEWS sullo STESSO CONTATTO → VA INCLUSA!
+- "Hotel Eden Roma: GM vacancy" (17 luglio) = VECCHIA NEWS, non ripetere
+- Ma "Hotel Eden Roma: fase 2 lavori completata" (18 luglio) = NUOVA NEWS sullo STESSO ALBERGO → VA INCLUSA!
+
+ESCLUDI DUPLICATI (stessa notizia ripetuta negli ultimi giorni):
+- Stessa persona + stesso ruolo + stesso albergo = DUPLICATO
+- Ma stesso contatto con NEWS DIVERSA = NUOVO
 
 RISPONDI CON JSON:
 {{
-  "duplicates_count": <numero elementi esclusi perche' gia' nel registry>,
-  "new_items": [<lista SOLO elementi nuovi non nel registry>],
-  "updated_registry": "<contenuto completo del registry con SOLO i nuovi elementi aggiunti>",
-  "notes": "<breve note>"
+  "duplicates_count": <numero notizie escluse perche' duplicate>,
+  "new_items": [<lista SOLO notizie nuove, incluse quelle su contatti/alberghi gia' menzionati in passato>],
+  "updated_registry": "<contenuto completo del registry con le nuove notizie aggiunte>",
+  "notes": "<breve note su quali notizie vecchie sono state escluse>"
 }}"""
 
     message = client.messages.create(
