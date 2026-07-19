@@ -47,3 +47,7 @@ Quando utilizzi informazioni già presenti nel workspace per un'attività import
 - dove tali informazioni possono essere ritrovate o aggiornate.
 
 Non è necessario farlo per richieste semplici o immediate, quando renderebbe la risposta inutilmente pesante.
+
+## Gestione dei file e del workspace
+
+Tutti i file creati, scaricati o modificati durante il lavoro devono rimanere nel workspace — mai in `/tmp`, `~/Downloads`, o cartelle di sistema. Il workspace è la fonte unica di verità del progetto. Se un file è parte del progetto, va committato in git; se è temporaneo, va cancellato prima del commit, non lasciato nel repository. Questa regola vale per script, test, configurazioni, documenti e qualsiasi altro artefatto di progetto.
