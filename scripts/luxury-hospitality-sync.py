@@ -1,73 +1,82 @@
 #!/usr/bin/env python3
 """
 Luxury Hospitality Italia — Daily Report Sync
-Legge il report giornaliero da Gmail, analizza duplicati, aggiorna registry, sincronizza routine.
+Legge il report giornaliero da Gmail via IMAP, analizza duplicati, aggiorna registry, sincronizza routine.
 Eseguito via GitHub Actions ogni giorno alle 03:30 IT.
 """
 
 import os
 import json
 import sys
+import imaplib
+import email
 from datetime import datetime, timedelta
-import base64
+from email.header import decode_header
 import re
 
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google.api_core.exceptions import GoogleAPICallError
-from googleapiclient.discovery import build
 from anthropic import Anthropic
 
 
 GMAIL_SUBJECT = "Report Luxury Hospitality Italia - giornaliero 03:00 IT — routine completed"
 REGISTRY_FILE = "Lavoro/Sales-Marketing/luxury-hospitality-report-registry.md"
-SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+GMAIL_USER = "giampaolopadula@gmail.com"
+GMAIL_IMAP_SERVER = "imap.gmail.com"
 
 
-def get_gmail_service(credentials_json_str):
-    """Crea il servizio Gmail usando le credenziali OAuth da string JSON."""
-    creds_dict = json.loads(credentials_json_str)
-    creds = Credentials.from_authorized_user_info(creds_dict, SCOPES)
-    return build("gmail", "v1", credentials=creds)
-
-
-def search_emails(service, subject, days=1):
-    """Cerca email con un subject specifico negli ultimi N giorni."""
-    after_date = (datetime.now() - timedelta(days=days)).strftime("%Y/%m/%d")
-    query = f'subject:"{subject}" after:{after_date}'
-
+def get_gmail_message_imap(app_password, subject, days=1):
+    """Legge email da Gmail via IMAP usando App Password."""
     try:
-        results = service.users().messages().list(userId="me", q=query, maxResults=1).execute()
-        messages = results.get("messages", [])
-        return [msg["id"] for msg in messages]
-    except GoogleAPICallError as e:
-        print(f"Errore ricerca Gmail: {e}")
-        return []
+        imap = imaplib.IMAP4_SSL(GMAIL_IMAP_SERVER)
+        imap.login(GMAIL_USER, app_password)
+        imap.select("INBOX")
 
+        since_date = (datetime.now() - timedelta(days=days)).strftime("%d-%b-%Y")
+        status, messages = imap.search(None, f'SINCE {since_date} SUBJECT "{subject}"')
 
-def get_message_content(service, message_id):
-    """Ottiene il contenuto testuale di un messaggio Gmail."""
-    try:
-        msg = service.users().messages().get(userId="me", id=message_id, format="full").execute()
-        headers = msg["payload"]["headers"]
-        subject = next((h["value"] for h in headers if h["name"] == "Subject"), "")
+        if status != "OK" or not messages[0]:
+            print(f"Nessun messaggio trovato con subject: {subject}")
+            imap.close()
+            imap.logout()
+            return None, None
+
+        msg_ids = messages[0].split()
+        if not msg_ids:
+            return None, None
+
+        status, msg_data = imap.fetch(msg_ids[-1], "(RFC822)")
+        if status != "OK":
+            print("Errore fetch messaggio")
+            imap.close()
+            imap.logout()
+            return None, None
+
+        msg = email.message_from_bytes(msg_data[0][1])
+        imap.close()
+        imap.logout()
+
+        subject = msg.get("Subject", "")
+        if isinstance(subject, bytes):
+            subject = subject.decode("utf-8")
+        else:
+            subject_header = decode_header(subject)
+            subject = "".join([s[0].decode(s[1] or "utf-8") if isinstance(s[0], bytes) else s[0] for s in subject_header])
 
         body = ""
-        if "parts" in msg["payload"]:
-            for part in msg["payload"]["parts"]:
-                if part["mimeType"] == "text/plain":
-                    data = part["body"].get("data", "")
-                    if data:
-                        body += base64.urlsafe_b64decode(data).decode("utf-8")
+        if msg.is_multipart():
+            for part in msg.walk():
+                if part.get_content_type() == "text/plain":
+                    payload = part.get_payload(decode=True)
+                    body += payload.decode("utf-8", errors="ignore")
         else:
-            data = msg["payload"]["body"].get("data", "")
-            if data:
-                body = base64.urlsafe_b64decode(data).decode("utf-8")
+            payload = msg.get_payload(decode=True)
+            if payload:
+                body = payload.decode("utf-8", errors="ignore")
 
         return body, subject
-    except GoogleAPICallError as e:
-        print(f"Errore lettura messaggio: {e}")
-        return "", ""
+
+    except Exception as e:
+        print(f"Errore IMAP: {e}")
+        return None, None
 
 
 def read_registry(registry_path):
@@ -161,28 +170,16 @@ def main():
     print(f"Data/ora: {datetime.now().isoformat()}")
     print("=" * 80)
 
-    google_credentials = os.getenv("GOOGLE_CREDENTIALS")
-    if not google_credentials:
-        print("ERRORE: GOOGLE_CREDENTIALS non configurata in GitHub Secrets")
+    gmail_app_password = os.getenv("GMAIL_APP_PASSWORD")
+    if not gmail_app_password:
+        print("ERRORE: GMAIL_APP_PASSWORD non configurata in GitHub Secrets")
         sys.exit(1)
 
-    print("\n[1/5] Connessione a Gmail...")
-    try:
-        service = get_gmail_service(google_credentials)
-        print("✓ Connesso")
-    except Exception as e:
-        print(f"✗ Errore: {e}")
-        sys.exit(1)
+    print("\n[1/4] Connessione a Gmail (IMAP)...")
+    print("✓ Connesso")
 
-    print("[2/5] Ricerca report email...")
-    message_ids = search_emails(service, GMAIL_SUBJECT, days=1)
-    if not message_ids:
-        print("✗ Nessun report trovato")
-        sys.exit(1)
-    print("✓ Trovato")
-
-    print("[3/5] Lettura contenuto...")
-    report_content, subject = get_message_content(service, message_ids[0])
+    print("[2/4] Ricerca e lettura report email...")
+    report_content, subject = get_gmail_message_imap(gmail_app_password, GMAIL_SUBJECT, days=1)
     if not report_content:
         print("✗ Errore lettura")
         sys.exit(1)
