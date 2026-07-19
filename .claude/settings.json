@@ -556,6 +556,16 @@
             "statusMessage": "Verifica rinomina/spostamento/eliminazione..."
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"c:/Users/giampaolo.padula_pig/Desktop/Claude Workspace/.claude/hooks/guard_workspace_boundary.py\"",
+            "statusMessage": "Verifica confine del workspace..."
+          }
+        ]
       }
     ]
   }

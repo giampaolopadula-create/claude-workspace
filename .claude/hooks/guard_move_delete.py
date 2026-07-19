@@ -25,6 +25,11 @@ root_norm = norm_path(WORKSPACE_ROOT)
 def resolve_existing(tok):
     if tok.startswith("-"):
         return None
+    # Skip stray path-separator-only tokens (e.g. a lone "\" left over from a
+    # shell line-continuation sequence "\<newline>" typed literally in the
+    # command text) -- these are not real path arguments.
+    if not tok.strip("\\/"):
+        return None
     p = norm_path(tok)
     if not re.match(r'^[a-zA-Z]:/', p):
         p = root_norm + "/" + p
@@ -41,40 +46,38 @@ def check_segment(segment):
 
     tokens = re.findall(r'"([^"]+)"|\'([^\']+)\'|(\S+)', segment)
     flat = [t[0] or t[1] or t[2] for t in tokens]
-    if not flat:
+    flat_lower = [t.lower() for t in flat]
+
+    hit_indices = [i for i, t in enumerate(flat_lower) if t in WATCHED]
+    if not hit_indices:
         return []
-
-    # Only recognize the watched command if it is the FIRST token of the
-    # segment (i.e. the actual command being invoked, not a word appearing
-    # later as an argument/string to some other command).
-    cmd_name = flat[0].lower()
-    if cmd_name not in WATCHED:
-        return []
-
-    args = flat[1:]
-
-    excluded_positions = set()
-    explicit_dest_flag_used = False
-    for k, a in enumerate(args):
-        if a.lower() in DEST_FLAGS:
-            explicit_dest_flag_used = True
-            if k + 1 < len(args):
-                excluded_positions.add(k + 1)
-
-    if cmd_name in DEST_CMDS and not explicit_dest_flag_used:
-        positional = [k for k, a in enumerate(args) if not a.startswith("-") and k not in excluded_positions]
-        if len(positional) >= 2:
-            excluded_positions.add(positional[-1])
 
     found = []
-    for k, a in enumerate(args):
-        if a.startswith("-"):
-            continue
-        if k in excluded_positions:
-            continue
-        existing = resolve_existing(a)
-        if existing:
-            found.append(existing)
+    for idx in hit_indices:
+        cmd_name = flat_lower[idx]
+        args = flat[idx + 1:]
+
+        excluded_positions = set()
+        explicit_dest_flag_used = False
+        for k, a in enumerate(args):
+            if a.lower() in DEST_FLAGS:
+                explicit_dest_flag_used = True
+                if k + 1 < len(args):
+                    excluded_positions.add(k + 1)
+
+        if cmd_name in DEST_CMDS and not explicit_dest_flag_used:
+            positional = [k for k, a in enumerate(args) if not a.startswith("-") and k not in excluded_positions]
+            if len(positional) >= 2:
+                excluded_positions.add(positional[-1])
+
+        for k, a in enumerate(args):
+            if a.startswith("-"):
+                continue
+            if k in excluded_positions:
+                continue
+            existing = resolve_existing(a)
+            if existing:
+                found.append(existing)
     return found
 
 
