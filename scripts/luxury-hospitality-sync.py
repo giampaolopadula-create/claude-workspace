@@ -102,29 +102,39 @@ REPORT OGGI:
 REGISTRY ATTUALE (notizie gia' segnalate):
 {current_registry}
 
-COMPITO CRITICO - ESCLUDERE SOLO LE NEWS DUPLICATE, NON I CONTATTI:
-1. LEGGI il registry e identifica le NOTIZIE GIA' SEGNALATE (es: "Danilo Guerrini → GM Romazzino")
-2. CONFRONTA il report di oggi con il registry
-3. ESCLUDI solo le notizie/eventi che sono IDENTICI o PRATICAMENTE IDENTICI a quelli nel registry
-4. INCLUDI tutte le notizie NUOVE sullo stesso contatto/albergo (es: se oggi c'è una nuova notizia su Danilo Guerrini, va inclusa!)
-5. AGGIORNA il registry: aggiungi SOLO le notizie nuove
+COMPITO CRITICO - TRE REGOLE:
 
-REGOLA FONDAMENTALE (IMPORTANTE):
-- "Danilo Guerrini → GM Romazzino" (17 luglio) = VECCHIA NEWS, non ripetere
-- Ma "Danilo Guerrini in cerca di nuovo ruolo" (18 luglio) = NUOVA NEWS sullo STESSO CONTATTO → VA INCLUSA!
-- "Hotel Eden Roma: GM vacancy" (17 luglio) = VECCHIA NEWS, non ripetere
-- Ma "Hotel Eden Roma: fase 2 lavori completata" (18 luglio) = NUOVA NEWS sullo STESSO ALBERGO → VA INCLUSA!
+1. ESCLUDERE SOLO DUPLICATI (stessa news ripetuta):
+   - "Danilo Guerrini → GM Romazzino" (17 luglio) = VECCHIA NEWS, escludere
+   - Ma "Danilo Guerrini → CEO Belmond" (18 luglio) = NUOVA NEWS sullo STESSO CONTATTO → INCLUDERE!
+   - Se nessuna novità materiale, escludere il progetto/contatto
 
-ESCLUDI DUPLICATI (stessa notizia ripetuta negli ultimi giorni):
-- Stessa persona + stesso ruolo + stesso albergo = DUPLICATO
-- Ma stesso contatto con NEWS DIVERSA = NUOVO
+2. FOLLOW-UP CON NOVITÀ SPECIFICHE (per elementi gia' segnalati con cambiamenti):
+   Se un elemento GIA' SEGNALATO ha una novità materiale, metterlo in sezione FOLLOW-UP con il tipo di cambiamento:
+   - funding secured / funding approved
+   - timeline change
+   - leadership appointment / vacancy published / vacancy closed
+   - recruiter identified / operator selected / ownership change
+   - construction start / construction phase change / official opening date confirmed
+   Esempio: "Gran Baita Cervinia — [FOLLOW-UP] Fondamenta completate (progresso cantiere)"
+
+3. VERIFICARE LINKEDIN PER TUTTI I CONTATTI (FONDAMENTALE):
+   Per OGNI contatto (leadership, recruiter, operatore), includere nel report:
+   - Nome completo
+   - Ruolo/azienda
+   - LinkedIn profile (se trovato) O nota "LinkedIn non verificato"
+   Esempio: "Claudio Catani (VP Operations, FH55) — LinkedIn: [link] o 'LinkedIn non verificato'"
+
+LAVORO SULLE SEZIONI:
+- P1/P2/P3: solo elementi COMPLETAMENTE NUOVI
+- FOLLOW-UP: elementi GIA' SEGNALATI con novità materiale specifiche
+- CONTATTI: includere nome, ruolo, azienda, status LinkedIn
 
 RISPONDI CON JSON:
 {{
   "duplicates_count": <numero notizie escluse perche' duplicate>,
-  "new_items": [<lista SOLO notizie nuove, incluse quelle su contatti/alberghi gia' menzionati in passato>],
-  "updated_registry": "<contenuto completo del registry con le nuove notizie aggiunte>",
-  "notes": "<breve note su quali notizie vecchie sono state escluse>"
+  "new_items": [<lista notizie nuove + follow-up con novita'>],
+  "updated_registry": "<registry con nuovi elementi + follow-up aggiornati>"
 }}"""
 
     message = client.messages.create(
