@@ -16,6 +16,10 @@ Sui numeri (budget, calcoli finanziari): mostrare il metodo di calcolo in modo e
 ## Dati variabili nel tempo
 Per dati soggetti a variazione (prezzi, tassi, KPI, condizioni di mercato), indica sempre la data di riferimento e verifica che l'informazione sia ancora valida prima di usarla in una valutazione importante.
 
+## Ricerca web
+
+Prima di dichiarare che un'informazione non si trova, effettuare una ricerca web realmente approfondita — più tentativi, query diverse, fonti diverse. Non fermarsi al primo risultato assente o generico: dichiarare "non trovato" solo dopo aver davvero cercato, non dopo un primo tentativo superficiale.
+
 ## Verifica prima di consegnare
 Verificare l'output reale (Excel, docx, report, grafici) prima di dire che è pronto — non fidarsi solo del codice/script che lo genera.
 
