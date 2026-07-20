@@ -72,7 +72,7 @@ def analyze_report_and_update_registry(report_markdown, current_registry):
         sys.exit(1)
 
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.0-flash")
 
     prompt = f"""Tu sei un assistente per Giampaolo Padula per l'analisi del Luxury Hospitality Italia report.
 
