@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 from docx import Document
-from anthropic import Anthropic
+import google.generativeai as genai
 
 
 REGISTRY_FILE = "Lavoro/Sales-Marketing/luxury-hospitality-report-registry.md"
@@ -65,15 +65,16 @@ def update_registry_file(registry_path, new_content):
 
 
 def analyze_report_and_update_registry(report_markdown, current_registry):
-    """Usa Claude per analizzare il report, identificare duplicati, aggiornare registry."""
-    api_key = os.getenv("ANTHROPIC_API_KEY")
+    """Usa Google Gemini per analizzare il report, identificare duplicati, aggiornare registry."""
+    api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
-        print("ERRORE: ANTHROPIC_API_KEY non configurata")
+        print("ERRORE: GOOGLE_API_KEY non configurata")
         sys.exit(1)
 
-    client = Anthropic(api_key=api_key)
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
-    prompt = f"""Tu sei Claude, assistente di Giampaolo Padula per il Luxury Hospitality Italia report.
+    prompt = f"""Tu sei un assistente per Giampaolo Padula per l'analisi del Luxury Hospitality Italia report.
 
 REPORT OGGI:
 {report_markdown}
@@ -122,13 +123,8 @@ RISPONDI CON JSON:
   "updated_registry": "<registry con SOLO i nuovi elementi aggiunti + FOLLOW-UP con novita' concrete>"
 }}"""
 
-    message = client.messages.create(
-        model="claude-opus-4-8",
-        max_tokens=4000,
-        messages=[{"role": "user", "content": prompt}]
-    )
-
-    response_text = message.content[0].text
+    message = model.generate_content(prompt)
+    response_text = message.text
 
     try:
         json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
