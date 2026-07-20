@@ -90,13 +90,13 @@ REGOLE:
 Rispondi JSON:
 {{"duplicates_count": N, "new_items": [...], "updated_registry": "..."}}"""
 
-    message = client.messages.create(
+    message = client.chat.completions.create(
         model="mixtral-8x7b-32768",
         max_tokens=2000,
         messages=[{"role": "user", "content": prompt}]
     )
 
-    response_text = message.content[0].text
+    response_text = message.choices[0].message.content
 
     try:
         json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
