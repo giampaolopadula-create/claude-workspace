@@ -20,12 +20,13 @@ REPORTS_DIR = "Email/Allegati-da-analizzare"
 
 
 def find_latest_report():
-    """Trova il file Word più recente nella cartella Allegati-da-analizzare."""
+    """Trova il file Word più recente nella cartella Allegati-da-analizzare (ricerca ricorsiva)."""
     report_dir = Path(REPORTS_DIR)
     if not report_dir.exists():
         return None
 
-    word_files = list(report_dir.glob("*.docx"))
+    # Ricerca ricorsiva per tutti i .docx nella cartella
+    word_files = list(report_dir.rglob("*.docx"))
     if not word_files:
         return None
 
