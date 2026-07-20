@@ -74,54 +74,22 @@ def analyze_report_and_update_registry(report_markdown, current_registry):
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel("gemini-2.0-flash")
 
-    prompt = f"""Tu sei un assistente per Giampaolo Padula per l'analisi del Luxury Hospitality Italia report.
+    prompt = f"""Analizza il report e aggiorna il registry.
 
-REPORT OGGI:
+REPORT:
 {report_markdown}
 
-REGISTRY ATTUALE (notizie gia' segnalate):
+REGISTRY:
 {current_registry}
 
-COMPITO CRITICO - REGOLE CATEGORICHE:
+REGOLE:
+1. Escludi elementi IDENTICI al registry (stesso nome, status, dettagli)
+2. Per vacancy "live": verifica esistano realmente
+3. Segna FOLLOW-UP solo con novità concrete (funding, timeline, leadership, vacancy status)
+4. Senza novità materiale: escludi completamente
 
-**REGOLA 1: ESCLUDI COMPLETAMENTE ELEMENTI IDENTICI AL REPORT PRECEDENTE**
-Se un elemento appare nel nuovo report ESATTAMENTE come nel registry (stesso nome, stesso status, stessi dettagli):
-→ ESCLUDI dalla sezione P1/P2/P3
-→ NON includere come se fosse nuovo
-Esempio: "Hotel Bellevue — vacancy live (apertura fine 2026)" era nel 17 luglio IDENTICO → ESCLUDI completamente dal nuovo report
-
-**REGOLA 2: VACANCIES - VERIFICARE PRIMA DI INCLUDERE**
-Se nel report una posizione è dichiarata "live" su un portale (Michael Page, LinkedIn, Recruiter, ecc.):
-→ VERIFICA che esista davvero sul sito — se non è trovabile, escludila o marcala come "da verificare con urgenza"
-→ NON fidarsi della dichiarazione se non verificata
-
-**REGOLA 3: FOLLOW-UP CON NOVITÀ MATERIALI CHIARE**
-Un elemento GIA' SEGNALATO entra in FOLLOW-UP SOLO se ha una novità materiale CONCRETA:
-- funding secured / funding approved / aumento di capitale / cartolarizzazione
-- timeline change / apertura confermata / slittamento
-- leadership appointment (nuova nomina)
-- vacancy published / vacancy closed / candidature aperte
-- recruiter identified / operator selected definitivamente / ownership change confermato
-→ La novità deve essere ESPLICITA e DOCUMENTATA
-→ Se non c'è novità materiale, ESCLUDI completamente (niente follow-up, niente ripetizione)
-
-**REGOLA 4: LINKEDIN VERIFICATION OBBLIGATORIA**
-Per OGNI contatto (leadership, recruiter, operatore):
-- Nome completo + Ruolo + Azienda
-- LinkedIn: [URL] oppure "LinkedIn non verificato"
-- Se LinkedIn non verificato, nota "verifica consigliata"
-
-**SEZIONI:**
-- P1/P2/P3: SOLO elementi completamente nuovi (mai visti prima)
-- FOLLOW-UP: elementi GIA' SEGNALATI con novità materiale concreta e documentata
-- NULLA: se niente di nuovo, non includere niente
-
-RISPONDI CON JSON:
-{{
-  "duplicates_count": <numero elementi esclusi perche' identici al registry>,
-  "new_items": [<lista notizie SOLO nuove, escluso tutto il resto>],
-  "updated_registry": "<registry con SOLO i nuovi elementi aggiunti + FOLLOW-UP con novita' concrete>"
-}}"""
+Rispondi JSON:
+{{"duplicates_count": N, "new_items": [...], "updated_registry": "..."}}"""
 
     message = model.generate_content(prompt)
     response_text = message.text
