@@ -31,7 +31,8 @@ def get_gmail_message_imap(app_password, subject, days=1):
         imap.select("INBOX")
 
         since_date = (datetime.now() - timedelta(days=days)).strftime("%d-%b-%Y")
-        status, messages = imap.search(None, f'SINCE {since_date} SUBJECT "{subject}"')
+        # Usa una ricerca semplice con la parola chiave "Report" per evitare problemi di encoding con em-dash
+        status, messages = imap.search(None, f'SINCE {since_date} SUBJECT "Report"')
 
         if status != "OK" or not messages[0]:
             print(f"Nessun messaggio trovato con subject: {subject}")
