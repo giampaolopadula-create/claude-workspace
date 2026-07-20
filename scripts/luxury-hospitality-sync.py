@@ -91,7 +91,7 @@ Rispondi JSON:
 {{"duplicates_count": N, "new_items": [...], "updated_registry": "..."}}"""
 
     message = client.chat.completions.create(
-        model="llama-3.1-70b-versatile",
+        model="llama-3.2-90b-vision-preview",
         max_tokens=2000,
         messages=[{"role": "user", "content": prompt}]
     )
