@@ -27,7 +27,6 @@ jobs:
 
       - name: Run luxury-hospitality-sync
         env:
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           python scripts/luxury-hospitality-sync.py

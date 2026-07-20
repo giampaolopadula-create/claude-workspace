@@ -1,92 +1,51 @@
 #!/usr/bin/env python3
 """
 Luxury Hospitality Italia — Daily Report Sync
-Legge il report giornaliero da Gmail via IMAP, analizza duplicati, aggiorna registry, sincronizza routine.
-Eseguito via GitHub Actions ogni giorno alle 03:30 IT.
+Legge il report giornaliero da file Word, analizza duplicati, aggiorna registry.
 """
 
 import os
 import json
 import sys
-import imaplib
-import email
-from datetime import datetime, timedelta
-from email.header import decode_header
 import re
+from datetime import datetime
+from pathlib import Path
 
+from docx import Document
 from anthropic import Anthropic
 
 
-GMAIL_SUBJECT = "Report Luxury Hospitality Italia - giornaliero 03:00 IT — routine completed"
 REGISTRY_FILE = "Lavoro/Sales-Marketing/luxury-hospitality-report-registry.md"
-GMAIL_USER = "giampaolopadula@gmail.com"
-GMAIL_IMAP_SERVER = "imap.gmail.com"
+REPORTS_DIR = "Email/Allegati-da-analizzare"
 
 
-def get_gmail_message_imap(app_password, subject, days=1):
-    """Legge email da Gmail via IMAP usando App Password."""
+def find_latest_report():
+    """Trova il file Word più recente nella cartella Allegati-da-analizzare."""
+    report_dir = Path(REPORTS_DIR)
+    if not report_dir.exists():
+        return None
+
+    word_files = list(report_dir.glob("*.docx"))
+    if not word_files:
+        return None
+
+    # Ordina per data di modifica, più recente first
+    word_files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
+    return word_files[0]
+
+
+def read_word_file(file_path):
+    """Legge il contenuto di un file Word."""
     try:
-        imap = imaplib.IMAP4_SSL(GMAIL_IMAP_SERVER)
-        imap.login(GMAIL_USER, app_password)
-        imap.select("INBOX")
-
-        since_date = (datetime.now() - timedelta(days=days)).strftime("%d-%b-%Y")
-        # Usa una ricerca semplice con la parola chiave "Report" per evitare problemi di encoding con em-dash
-        status, messages = imap.search(None, f'SINCE {since_date} SUBJECT "Report"')
-
-        if status != "OK" or not messages[0]:
-            print(f"Nessun messaggio trovato con subject: {subject}")
-            imap.close()
-            imap.logout()
-            return None, None
-
-        msg_ids = messages[0].split()
-        if not msg_ids:
-            return None, None
-
-        status, msg_data = imap.fetch(msg_ids[-1], "(RFC822)")
-        if status != "OK":
-            print("Errore fetch messaggio")
-            imap.close()
-            imap.logout()
-            return None, None
-
-        msg = email.message_from_bytes(msg_data[0][1])
-        imap.close()
-        imap.logout()
-
-        subject = msg.get("Subject", "")
-        if isinstance(subject, bytes):
-            subject = subject.decode("utf-8", errors="replace")
-        else:
-            subject_header = decode_header(subject)
-            subject = "".join([s[0].decode(s[1] or "utf-8", errors="replace") if isinstance(s[0], bytes) else str(s[0]) for s in subject_header])
-
-        body = ""
-        if msg.is_multipart():
-            for part in msg.walk():
-                if part.get_content_type() == "text/plain":
-                    payload = part.get_payload(decode=True)
-                    if payload:
-                        try:
-                            body += payload.decode("utf-8", errors="replace")
-                        except:
-                            body += payload.decode("latin-1", errors="replace")
-        else:
-            payload = msg.get_payload(decode=True)
-            if payload:
-                try:
-                    body = payload.decode("utf-8", errors="replace")
-                except:
-                    body = payload.decode("latin-1", errors="replace")
-
-        return body, subject
-
+        doc = Document(file_path)
+        text = ""
+        for para in doc.paragraphs:
+            if para.text.strip():
+                text += para.text + "\n"
+        return text
     except Exception as e:
-        print(f"Errore IMAP: {e}")
-        import traceback
-        traceback.print_exc()
-        return None, None
+        print(f"Errore lettura file Word: {e}")
+        return None
 
 
 def read_registry(registry_path):
@@ -130,7 +89,7 @@ Se un elemento appare nel nuovo report ESATTAMENTE come nel registry (stesso nom
 Esempio: "Hotel Bellevue — vacancy live (apertura fine 2026)" era nel 17 luglio IDENTICO → ESCLUDI completamente dal nuovo report
 
 **REGOLA 2: VACANCIES - VERIFICARE PRIMA DI INCLUDERE**
-Se nel report una posizione è dichiarata "live" su un portale (Michael Page, LinkedIn, LinkedIn Recruiter, ecc.):
+Se nel report una posizione è dichiarata "live" su un portale (Michael Page, LinkedIn, Recruiter, ecc.):
 → VERIFICA che esista davvero sul sito — se non è trovabile, escludila o marcala come "da verificare con urgenza"
 → NON fidarsi della dichiarazione se non verificata
 
@@ -186,26 +145,25 @@ def main():
     print(f"Data/ora: {datetime.now().isoformat()}")
     print("=" * 80)
 
-    gmail_app_password = os.getenv("GMAIL_APP_PASSWORD")
-    if not gmail_app_password:
-        print("ERRORE: GMAIL_APP_PASSWORD non configurata in GitHub Secrets")
+    print("\n[1/4] Ricerca report Word...")
+    report_file = find_latest_report()
+    if not report_file:
+        print("✗ Nessun report Word trovato")
         sys.exit(1)
+    print(f"✓ Trovato: {report_file.name}")
 
-    print("\n[1/4] Connessione a Gmail (IMAP)...")
-    print("✓ Connesso")
-
-    print("[2/4] Ricerca e lettura report email...")
-    report_content, subject = get_gmail_message_imap(gmail_app_password, GMAIL_SUBJECT, days=1)
+    print("[2/4] Lettura contenuto...")
+    report_content = read_word_file(report_file)
     if not report_content:
         print("✗ Errore lettura")
         sys.exit(1)
     print(f"✓ Report letto ({len(report_content)} bytes)")
 
-    print("[4/5] Lettura registry...")
+    print("[3/4] Lettura registry...")
     registry_content = read_registry(REGISTRY_FILE)
     print("✓ Registry letto")
 
-    print("[5/5] Analisi duplicati (Claude)...")
+    print("[4/4] Analisi duplicati (Claude)...")
     result = analyze_report_and_update_registry(report_content, registry_content)
 
     if not result:
