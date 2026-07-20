@@ -56,26 +56,35 @@ def get_gmail_message_imap(app_password, subject, days=1):
 
         subject = msg.get("Subject", "")
         if isinstance(subject, bytes):
-            subject = subject.decode("utf-8")
+            subject = subject.decode("utf-8", errors="replace")
         else:
             subject_header = decode_header(subject)
-            subject = "".join([s[0].decode(s[1] or "utf-8") if isinstance(s[0], bytes) else s[0] for s in subject_header])
+            subject = "".join([s[0].decode(s[1] or "utf-8", errors="replace") if isinstance(s[0], bytes) else str(s[0]) for s in subject_header])
 
         body = ""
         if msg.is_multipart():
             for part in msg.walk():
                 if part.get_content_type() == "text/plain":
                     payload = part.get_payload(decode=True)
-                    body += payload.decode("utf-8", errors="ignore")
+                    if payload:
+                        try:
+                            body += payload.decode("utf-8", errors="replace")
+                        except:
+                            body += payload.decode("latin-1", errors="replace")
         else:
             payload = msg.get_payload(decode=True)
             if payload:
-                body = payload.decode("utf-8", errors="ignore")
+                try:
+                    body = payload.decode("utf-8", errors="replace")
+                except:
+                    body = payload.decode("latin-1", errors="replace")
 
         return body, subject
 
     except Exception as e:
         print(f"Errore IMAP: {e}")
+        import traceback
+        traceback.print_exc()
         return None, None
 
 
