@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 from docx import Document
-import google.generativeai as genai
+from groq import Groq
 
 
 REGISTRY_FILE = "Lavoro/Sales-Marketing/luxury-hospitality-report-registry.md"
@@ -65,14 +65,13 @@ def update_registry_file(registry_path, new_content):
 
 
 def analyze_report_and_update_registry(report_markdown, current_registry):
-    """Usa Google Gemini per analizzare il report, identificare duplicati, aggiornare registry."""
-    api_key = os.getenv("GOOGLE_API_KEY")
+    """Usa Groq per analizzare il report, identificare duplicati, aggiornare registry."""
+    api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
-        print("ERRORE: GOOGLE_API_KEY non configurata")
+        print("ERRORE: GROQ_API_KEY non configurata")
         sys.exit(1)
 
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    client = Groq(api_key=api_key)
 
     prompt = f"""Analizza il report e aggiorna il registry.
 
@@ -91,8 +90,13 @@ REGOLE:
 Rispondi JSON:
 {{"duplicates_count": N, "new_items": [...], "updated_registry": "..."}}"""
 
-    message = model.generate_content(prompt)
-    response_text = message.text
+    message = client.messages.create(
+        model="mixtral-8x7b-32768",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    response_text = message.content[0].text
 
     try:
         json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
