@@ -111,39 +111,45 @@ REPORT OGGI:
 REGISTRY ATTUALE (notizie gia' segnalate):
 {current_registry}
 
-COMPITO CRITICO - TRE REGOLE:
+COMPITO CRITICO - REGOLE CATEGORICHE:
 
-1. ESCLUDERE SOLO DUPLICATI (stessa news ripetuta):
-   - "Danilo Guerrini → GM Romazzino" (17 luglio) = VECCHIA NEWS, escludere
-   - Ma "Danilo Guerrini → CEO Belmond" (18 luglio) = NUOVA NEWS sullo STESSO CONTATTO → INCLUDERE!
-   - Se nessuna novità materiale, escludere il progetto/contatto
+**REGOLA 1: ESCLUDI COMPLETAMENTE ELEMENTI IDENTICI AL REPORT PRECEDENTE**
+Se un elemento appare nel nuovo report ESATTAMENTE come nel registry (stesso nome, stesso status, stessi dettagli):
+→ ESCLUDI dalla sezione P1/P2/P3
+→ NON includere come se fosse nuovo
+Esempio: "Hotel Bellevue — vacancy live (apertura fine 2026)" era nel 17 luglio IDENTICO → ESCLUDI completamente dal nuovo report
 
-2. FOLLOW-UP CON NOVITÀ SPECIFICHE (per elementi gia' segnalati con cambiamenti):
-   Se un elemento GIA' SEGNALATO ha una novità materiale, metterlo in sezione FOLLOW-UP con il tipo di cambiamento:
-   - funding secured / funding approved
-   - timeline change
-   - leadership appointment / vacancy published / vacancy closed
-   - recruiter identified / operator selected / ownership change
-   - construction start / construction phase change / official opening date confirmed
-   Esempio: "Gran Baita Cervinia — [FOLLOW-UP] Fondamenta completate (progresso cantiere)"
+**REGOLA 2: VACANCIES - VERIFICARE PRIMA DI INCLUDERE**
+Se nel report una posizione è dichiarata "live" su un portale (Michael Page, LinkedIn, LinkedIn Recruiter, ecc.):
+→ VERIFICA che esista davvero sul sito — se non è trovabile, escludila o marcala come "da verificare con urgenza"
+→ NON fidarsi della dichiarazione se non verificata
 
-3. VERIFICARE LINKEDIN PER TUTTI I CONTATTI (FONDAMENTALE):
-   Per OGNI contatto (leadership, recruiter, operatore), includere nel report:
-   - Nome completo
-   - Ruolo/azienda
-   - LinkedIn profile (se trovato) O nota "LinkedIn non verificato"
-   Esempio: "Claudio Catani (VP Operations, FH55) — LinkedIn: [link] o 'LinkedIn non verificato'"
+**REGOLA 3: FOLLOW-UP CON NOVITÀ MATERIALI CHIARE**
+Un elemento GIA' SEGNALATO entra in FOLLOW-UP SOLO se ha una novità materiale CONCRETA:
+- funding secured / funding approved / aumento di capitale / cartolarizzazione
+- timeline change / apertura confermata / slittamento
+- leadership appointment (nuova nomina)
+- vacancy published / vacancy closed / candidature aperte
+- recruiter identified / operator selected definitivamente / ownership change confermato
+→ La novità deve essere ESPLICITA e DOCUMENTATA
+→ Se non c'è novità materiale, ESCLUDI completamente (niente follow-up, niente ripetizione)
 
-LAVORO SULLE SEZIONI:
-- P1/P2/P3: solo elementi COMPLETAMENTE NUOVI
-- FOLLOW-UP: elementi GIA' SEGNALATI con novità materiale specifiche
-- CONTATTI: includere nome, ruolo, azienda, status LinkedIn
+**REGOLA 4: LINKEDIN VERIFICATION OBBLIGATORIA**
+Per OGNI contatto (leadership, recruiter, operatore):
+- Nome completo + Ruolo + Azienda
+- LinkedIn: [URL] oppure "LinkedIn non verificato"
+- Se LinkedIn non verificato, nota "verifica consigliata"
+
+**SEZIONI:**
+- P1/P2/P3: SOLO elementi completamente nuovi (mai visti prima)
+- FOLLOW-UP: elementi GIA' SEGNALATI con novità materiale concreta e documentata
+- NULLA: se niente di nuovo, non includere niente
 
 RISPONDI CON JSON:
 {{
-  "duplicates_count": <numero notizie escluse perche' duplicate>,
-  "new_items": [<lista notizie nuove + follow-up con novita'>],
-  "updated_registry": "<registry con nuovi elementi + follow-up aggiornati>"
+  "duplicates_count": <numero elementi esclusi perche' identici al registry>,
+  "new_items": [<lista notizie SOLO nuove, escluso tutto il resto>],
+  "updated_registry": "<registry con SOLO i nuovi elementi aggiunti + FOLLOW-UP con novita' concrete>"
 }}"""
 
     message = client.messages.create(
