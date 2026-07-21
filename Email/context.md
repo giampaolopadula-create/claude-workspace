@@ -208,6 +208,6 @@ Ogni bozza viene mostrata esclusivamente nella conversazione o nel workspace. Sa
 
 ## Conservazione dei dati
 
-Non salvare automaticamente nel workspace copie permanenti delle e-mail o degli allegati. Eventuali file temporanei creati per ragioni tecniche devono essere eliminati al termine dell'analisi.
+Non salvare automaticamente nel workspace copie permanenti delle e-mail o degli allegati. Eventuali file temporanei creati per ragioni tecniche devono essere eliminati al termine dell'analisi. La sottocartella `Allegati-da-analizzare/gestione-temporanea-file/` è uno spazio di lavoro manuale di Giampaolo: può contenere anche allegati e-mail, non segue la convenzione di naming standard, e Claude Code non deve crearvi, rinominarvi o eliminarvi file autonomamente.
 
 Non trasferire automaticamente nel contesto globale contenuti di singole e-mail, nomi degli interlocutori, informazioni contingenti o dettagli temporanei delle conversazioni. Se emerge un'informazione stabile e utile anche in futuro, applicare il protocollo di [modalita-interazione.md](../context/modalita-interazione.md): indicare se merita conservazione, proporre la destinazione, spiegare il motivo, segnalare eventuali duplicazioni o conflitti, mostrare la modifica e attendere approvazione prima di aggiornare qualsiasi file.

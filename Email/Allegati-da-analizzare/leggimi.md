@@ -13,3 +13,7 @@ Esempio: `2026-07-14_rinnovo-assicurazione-auto_polizza.pdf`
 Se di fretta non ricordi il titolo esatto della pratica, va bene anche solo data + oggetto abbreviato: verrà comunque trovato per contesto.
 
 Non è una cartella di archiviazione permanente: i file possono essere rimossi una volta conclusa l'analisi.
+
+## Sottocartella di lavoro personale
+
+`gestione-temporanea-file/` è uno spazio di lavoro manuale di Giampaolo, distinto da questa cartella: i file al suo interno non seguono la convenzione di naming sopra descritta e vengono gestiti ed eliminati direttamente da lui.

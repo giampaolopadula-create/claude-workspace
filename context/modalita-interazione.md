@@ -51,3 +51,7 @@ Non è necessario farlo per richieste semplici o immediate, quando renderebbe la
 ## Gestione dei file e del workspace
 
 Tutti i file creati, scaricati o modificati durante il lavoro devono rimanere nel workspace — mai in `/tmp`, `~/Downloads`, o cartelle di sistema. Il workspace è la fonte unica di verità del progetto. Se un file è parte del progetto, va committato in git; se è temporaneo, va cancellato prima del commit, non lasciato nel repository. Questa regola vale per script, test, configurazioni, documenti e qualsiasi altro artefatto di progetto.
+
+Ogni nuovo file creato deve avere la data nel nome (formato `YYYY-MM-DD`), così è facile da trovare — es. `Analisi-budget-luglio - 2026-07-19.docx`. Vale per documenti, report, sintesi ed esercizi; non per i file di configurazione o le skill stesse.
+
+Ogni volta che si crea una nuova skill in `.claude/skills/`, o se ne modifica sostanzialmente scopo/utilizzo, aggiornare nello stesso turno `Elenco_skill.docx` (radice del workspace) con una voce nello stesso formato di quelle esistenti, senza attendere richiesta esplicita.

@@ -1,6 +1,0 @@
-TABLE
-Fondo | Importo oggi | Contributo mensile | Obiettivo | Orizzonte | Dove investirlo | Proiezione
-Pensione (pura) | €143.146 | €800/mese | €350.000 | 15 anni (2026→2041) | 🔒 BTP — BTP scaglionati 2027-2041 (il più vicino disponibile alla data di acquisto; ladder per gestione rischio tasso, non uso immediato) | circa €420.200 (avanzo circa €70.200)
-TABLE
-Percorso | Costo reale futuro (3%/anno) | Fondo proiettato | Disavanzo (3%)
-LUISS + Master EHL | €248.900 | €214.800 | −€34.100

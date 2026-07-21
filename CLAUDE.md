@@ -30,10 +30,11 @@ Il file `Lavoro/CLAUDE.md` resta il meccanismo automatico utilizzato quando si l
 I seguenti file non sono importati automaticamente. Devono essere letti integralmente prima di produrre il risultato quando la richiesta rientra chiaramente nel relativo ambito:
 
 - Per valutazioni di carriera, candidature, head hunter, incarichi di advisory o consulenze: [opportunita-professionali.md](context/opportunita-professionali.md)
-- Per LinkedIn, Instagram, messaggi di networking e contenuti professionali sui social: [networking-social.md](context/networking-social.md)
+- Per LinkedIn, Instagram, messaggi di networking e contenuti professionali sui social: [networking-social.md](context/networking-social.md). Per il post LinkedIn quotidiano sull'hospitality di lusso, utilizzare sempre la skill `/post-linkedin` invece di scriverlo a mano: applica calendario dei temi, ricerca web obbligatoria e limiti di lunghezza che una richiesta generica non garantirebbe.
 - Per minute delle riunioni HOD e relativi follow-up: [minute-riunioni-hod.md](workflows/minute-riunioni-hod.md)
 - Per report di budget e controllo di gestione: [report-budget-controllo-gestione.md](workflows/report-budget-controllo-gestione.md)
 - Per attività di lettura, ricostruzione e preparazione di risposte alle e-mail avviate dalla root, leggere integralmente [Email/context.md](Email/context.md) prima di produrre il risultato. Quando si lavora direttamente dentro `Email/`, il file `Email/CLAUDE.md` importa automaticamente il relativo `context.md`. Per elaborare una nuova pratica e-mail, utilizzare sempre la skill `/email [oggetto o argomento]`. Non avviare il workflow e-mail con una richiesta generica quando è disponibile la skill.
+- Per sintetizzare un singolo file Word o PDF (un allegato, un report, qualunque documento) o il link di una pagina web (articolo, newsletter, blog), utilizzare sempre la skill `/sintesi-allegato` invece di riassumerlo a mano: garantisce lettura integrale, formato coerente e — solo per il bollettino "Job in Tourism" — la segnalazione di eventuali posizioni da Direttore/General Manager.
 - Prima di preparare una comunicazione destinata a una persona specifica, verificare se esistono indicazioni dedicate in [registro-interlocutori.md](context/registro-interlocutori.md).
 
 ## Dossier riservato

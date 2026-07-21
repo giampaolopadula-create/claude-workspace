@@ -12,10 +12,11 @@ from datetime import datetime
 from pathlib import Path
 
 from docx import Document
-from groq import Groq
+import ollama
 
 
 REGISTRY_FILE = "Lavoro/Sales-Marketing/luxury-hospitality-report-registry.md"
+DUPLICATES_AND_ERRORS_FILE = "Lavoro/Sales-Marketing/luxury-hospitality-duplicates-and-errors.md"
 REPORTS_DIR = "Email/Allegati-da-analizzare"
 
 
@@ -25,8 +26,8 @@ def find_latest_report():
     if not report_dir.exists():
         return None
 
-    # Ricerca ricorsiva per tutti i .docx nella cartella
-    word_files = list(report_dir.rglob("*.docx"))
+    # Ricerca ricorsiva per tutti i .docx nella cartella (escludi file temporanei)
+    word_files = [f for f in report_dir.rglob("*.docx") if not f.name.startswith("~$")]
     if not word_files:
         return None
 
@@ -57,6 +58,14 @@ def read_registry(registry_path):
         return f.read()
 
 
+def read_duplicates_and_errors(duplicates_file):
+    """Legge il file storico di doppioni e errori."""
+    if not os.path.exists(duplicates_file):
+        return ""
+    with open(duplicates_file, "r", encoding="utf-8") as f:
+        return f.read()
+
+
 def update_registry_file(registry_path, new_content):
     """Aggiorna il file registry."""
     os.makedirs(os.path.dirname(registry_path), exist_ok=True)
@@ -64,16 +73,70 @@ def update_registry_file(registry_path, new_content):
         f.write(new_content)
 
 
-def analyze_report_and_update_registry(report_markdown, current_registry):
-    """Usa Groq per analizzare il report, identificare duplicati, aggiornare registry."""
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
-        print("ERRORE: GROQ_API_KEY non configurata")
-        sys.exit(1)
+def update_duplicates_and_errors_file(duplicates_file, analysis_result, current_content):
+    """Aggiorna il file storico di doppioni/errori basandosi sui risultati di Ollama."""
+    today = datetime.now().strftime("%Y-%m-%d")
 
-    client = Groq(api_key=api_key)
+    # Estrai elementi da aggiungere
+    new_duplicates = analysis_result.get("identified_duplicates", [])
+    new_unverified = analysis_result.get("unverified_items", [])
 
-    prompt = f"""Analizza il report e aggiorna il registry.
+    # Parsa il contenuto attuale per evitare duplicati
+    existing_content = current_content
+    updated_content = existing_content
+
+    # Aggiungi nuovi doppioni (se non già presenti)
+    if new_duplicates:
+        dup_section_exists = "## Doppioni Identificati" in updated_content
+        if not dup_section_exists:
+            updated_content += "\n## Doppioni Identificati\n\n"
+
+        for dup in new_duplicates:
+            dup_clean = dup.strip("* ").strip()
+            if dup_clean and dup_clean not in updated_content:
+                updated_content += f"| {dup_clean} | ? | {today} | Identificato da Ollama. |\n"
+
+    # Aggiungi elementi non verificati (se non già presenti)
+    if new_unverified:
+        verify_section_exists = "## Errori Verificati" in updated_content
+        if not verify_section_exists:
+            updated_content += "\n## Errori Verificati\n\n"
+
+        for item in new_unverified:
+            item_clean = item.strip("* ").strip()
+            if item_clean and item_clean not in updated_content:
+                updated_content += f"| {item_clean} | {today} | Non verificato | Richiede verifica manuale. |\n"
+
+    # Aggiorna timestamp (rimuovi righe vecchie e aggiungi nuove)
+    updated_content = re.sub(r"Ultimo aggiornamento: .*\n", "", updated_content)
+    updated_content = re.sub(r"Ultimo ciclo Ollama: .*\n", "", updated_content)
+
+    # Aggiungi le nuove righe di timestamp dopo "Data creazione:"
+    updated_content = re.sub(
+        r"(Data creazione: [^\n]+\n)",
+        f"\\1Ultimo aggiornamento: {today}\nUltimo ciclo Ollama: {today}\n",
+        updated_content
+    )
+
+    # Salva il file
+    os.makedirs(os.path.dirname(duplicates_file), exist_ok=True)
+    with open(duplicates_file, "w", encoding="utf-8") as f:
+        f.write(updated_content)
+
+    return updated_content
+
+
+def analyze_report_and_update_registry(report_markdown, current_registry, duplicates_and_errors_content):
+    """Usa Ollama locale per analizzare il report, identificare duplicati, aggiornare registry."""
+
+    prompt = f"""Analizza il report. LEGGI ATTENTAMENTE il file storico di doppioni e errori.
+
+REGOLE:
+- Elementi nel file 'Doppioni Identificati' → conteggia come duplicato, NON come nuovo
+- Elementi nel file 'Errori Verificati' → marca come "da verificare", NON aggiungere al registry
+- Aggiungi al registry SOLO elementi nuovi e verificati
+- Aggiorna il registry con follow-up già noti (non contare come nuovo)
+- ELENCA i doppioni identificati (per validazione successiva)
 
 REPORT:
 {report_markdown}
@@ -81,30 +144,90 @@ REPORT:
 REGISTRY:
 {current_registry}
 
-REGOLE:
-1. Escludi elementi IDENTICI al registry (stesso nome, status, dettagli)
-2. Per vacancy "live": verifica esistano realmente
-3. Segna FOLLOW-UP solo con novità concrete (funding, timeline, leadership, vacancy status)
-4. Senza novità materiale: escludi completamente
+FILE STORICO (Doppioni e Errori):
+{duplicates_and_errors_content}
 
-Rispondi JSON:
-{{"duplicates_count": N, "new_items": [...], "updated_registry": "..."}}"""
+Rispondi così:
+DUPLICATI: [numero]
+DUPLICATI IDENTIFICATI:
+* elemento 1
+* elemento 2
 
-    message = client.chat.completions.create(
-        model="llama-3.2-90b-vision-preview",
-        max_tokens=2000,
-        messages=[{"role": "user", "content": prompt}]
-    )
+NUOVI VERIFICATI:
+* elemento 1
+* elemento 2
 
-    response_text = message.choices[0].message.content
+DA VERIFICARE:
+* elemento 1
+
+REGISTRY UPDATE: [contenuto aggiornato]"""
 
     try:
-        json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
-        if json_match:
-            return json.loads(json_match.group())
-        return None
-    except json.JSONDecodeError:
-        print("Errore parsing JSON")
+        response = ollama.chat(
+            model="llama2",
+            messages=[{"role": "user", "content": prompt}]
+        )
+
+        response_text = response.get("message", {}).get("content", "")
+
+        # Parsing del formato testo strutturato da Ollama
+        duplicates = 0
+        identified_duplicates = []
+        new_items = []
+        unverified_items = []
+        updated_registry = response_text
+
+        # Estrai numero duplicati
+        dup_match = re.search(r'DUPICRITI?:\s*(\d+)', response_text)
+        if dup_match:
+            duplicates = int(dup_match.group(1))
+
+        # Parsing per sezioni
+        in_dup_identified = False
+        in_new_section = False
+        in_verify_section = False
+
+        for line in response_text.split('\n'):
+            if 'DUPLICATI IDENTIFICATI' in line.upper():
+                in_dup_identified = True
+                in_new_section = False
+                in_verify_section = False
+                continue
+            if 'NUOVI VERIFICATI' in line.upper():
+                in_dup_identified = False
+                in_new_section = True
+                in_verify_section = False
+                continue
+            if 'DA VERIFICARE:' in line.upper():
+                in_dup_identified = False
+                in_new_section = False
+                in_verify_section = True
+                continue
+            if 'REGISTRY UPDATE' in line.upper():
+                in_dup_identified = False
+                in_new_section = False
+                in_verify_section = False
+                continue
+
+            if in_dup_identified and line.strip().startswith('*'):
+                identified_duplicates.append(line.strip())
+            elif in_new_section and line.strip().startswith('*'):
+                new_items.append(line.strip())
+            elif in_verify_section and line.strip().startswith('*'):
+                unverified_items.append(line.strip())
+
+        return {
+            "duplicates_count": duplicates,
+            "identified_duplicates": identified_duplicates,
+            "new_items": new_items[:3],  # Top 3
+            "unverified_items": unverified_items,
+            "updated_registry": updated_registry,
+            "notes": f"Analyzed by Ollama llama2"
+        }
+    except Exception as e:
+        print(f"[ERRORE] Ollama: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 
@@ -117,47 +240,70 @@ def main():
     print("\n[1/4] Ricerca report Word...")
     report_file = find_latest_report()
     if not report_file:
-        print("✗ Nessun report Word trovato")
+        print("[FAIL] Nessun report Word trovato")
         sys.exit(1)
-    print(f"✓ Trovato: {report_file.name}")
+    print(f"[OK] Trovato: {report_file.name}")
 
     print("[2/4] Lettura contenuto...")
     report_content = read_word_file(report_file)
     if not report_content:
-        print("✗ Errore lettura")
+        print("[FAIL] Errore lettura")
         sys.exit(1)
-    print(f"✓ Report letto ({len(report_content)} bytes)")
+    print(f"[OK] Report letto ({len(report_content)} bytes)")
 
     print("[3/4] Lettura registry...")
     registry_content = read_registry(REGISTRY_FILE)
-    print("✓ Registry letto")
+    print("[OK] Registry letto")
 
-    print("[4/4] Analisi duplicati (Claude)...")
-    result = analyze_report_and_update_registry(report_content, registry_content)
+    print("[3.5/4] Lettura file storico (doppioni/errori)...")
+    duplicates_and_errors = read_duplicates_and_errors(DUPLICATES_AND_ERRORS_FILE)
+    print("[OK] File storico letto")
+
+    print("[4/4] Analisi duplicati (Ollama)...")
+    result = analyze_report_and_update_registry(report_content, registry_content, duplicates_and_errors)
 
     if not result:
-        print("✗ Errore analisi")
+        print("[FAIL] Errore analisi")
         sys.exit(1)
 
-    print("\n[UPDATE] Aggiornamento registry...")
+    print("\n[UPDATE] Aggiornamento file storico (doppioni/errori)...")
+    updated_duplicates = update_duplicates_and_errors_file(DUPLICATES_AND_ERRORS_FILE, result, duplicates_and_errors)
+    print("[OK] File storico aggiornato")
+
+    print("[UPDATE] Aggiornamento registry...")
     updated_registry = result.get("updated_registry", "")
     if updated_registry:
         update_registry_file(REGISTRY_FILE, updated_registry)
-        print("✓ Registry aggiornato")
+        print("[OK] Registry aggiornato")
     else:
-        print("⚠ Nessun cambio")
+        print("[WARN] Nessun cambio")
 
     print("\n" + "=" * 80)
-    print("RISULTATI")
+    print("RISULTATI OLLAMA")
     print("=" * 80)
-    print(f"Duplicati: {result.get('duplicates_count', 0)}")
-    print(f"Nuovi: {len(result.get('new_items', []))}")
+    print(f"Duplicati identificati: {result.get('duplicates_count', 0)}")
+    if result.get('identified_duplicates'):
+        for dup in result.get('identified_duplicates', []):
+            print(f"  [DUP] {dup}")
+    print(f"\nNuovi verificati: {len(result.get('new_items', []))}")
     if result.get('new_items'):
         for item in result.get('new_items', []):
-            print(f"  - {item}")
-    print(f"Note: {result.get('notes', 'N/A')}")
+            print(f"  [NEW] {item}")
+    if result.get('unverified_items'):
+        print(f"\nDa verificare: {len(result.get('unverified_items', []))}")
+        for item in result.get('unverified_items', []):
+            print(f"  [CHECK] {item}")
+    print(f"\nNote: {result.get('notes', 'N/A')}")
     print("=" * 80)
-    print("\n✓ Sync completato")
+
+    print("\n" + "=" * 80)
+    print("AGGIORNAMENTI FILE STORICO")
+    print("=" * 80)
+    print(f"Doppioni aggiunti: {len(result.get('identified_duplicates', []))}")
+    print(f"Elementi da verificare aggiunti: {len(result.get('unverified_items', []))}")
+    print("[OK] File storico aggiornato e pronto per la prossima routine")
+    print("=" * 80)
+    print("\n[OK] Sync completato")
 
 
 if __name__ == "__main__":
