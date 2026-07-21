@@ -24,6 +24,7 @@ Ultimo ciclo manuale: 2026-07-21
 | Danilo Guerrini (GM Romazzino A Belmond Hotel) | 2026-07-21 | 2026-07-21 | Nominato GM Costa Smeralda dal 10/07/2026. Non riproporre questo movement. |
 | Tito De Benedetto (GM Baglioni Hotel Luna Venezia) | 2026-07-21 | 2026-07-21 | Nominato GM Baglioni luglio 2026. Non riproporre questo movement. |
 | Corinthia Hotels Italia | 2026-07-21 | 2026-07-21 | Operatore multi-property (Roma, Como/Menaggio, Toscana). Watchlist silenziosa — non riproporre senza novità significativa. |
+| Sonnwies Hotel Group — GM Luxury Lodge Funes (Dolomiti) | 2026-07-21 | 2026-07-21 | P2: pre-opening GM nuovo luxury lodge 24 suite, autunno 2026. Requisito tedesco principale limite. Non riproporre senza novità da Sonnwies/famiglia Hinteregger. |
 
 ---
 
