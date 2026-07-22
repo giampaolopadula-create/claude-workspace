@@ -1,8 +1,8 @@
 # Doppioni e Errori — Registro Storico Continuativo
 
 Data creazione: 2026-07-20
-Ultimo aggiornamento: 2026-07-21
-Ultimo ciclo manuale: 2026-07-21
+Ultimo aggiornamento: 2026-07-22
+Ultimo ciclo manuale: 2026-07-22
 
 ---
 
@@ -25,6 +25,9 @@ Ultimo ciclo manuale: 2026-07-21
 | Tito De Benedetto (GM Baglioni Hotel Luna Venezia) | 2026-07-21 | 2026-07-21 | Nominato GM Baglioni luglio 2026. Non riproporre questo movement. |
 | Corinthia Hotels Italia | 2026-07-21 | 2026-07-21 | Operatore multi-property (Roma, Como/Menaggio, Toscana). Watchlist silenziosa — non riproporre senza novità significativa. |
 | Sonnwies Hotel Group — GM Luxury Lodge Funes (Dolomiti) | 2026-07-21 | 2026-07-21 | P2: pre-opening GM nuovo luxury lodge 24 suite, autunno 2026. Requisito tedesco principale limite. Non riproporre senza novità da Sonnwies/famiglia Hinteregger. |
+| Masseria Le Taverne, Ostuni (Belmond/LVMH) | 2026-07-22 | 2026-07-22 | P2: asset in vendita off-market, ~20 offerte, advisor Cushman & Wakefield, valutazione €50-60M. Non riproporre senza novità su esito vendita/nuovo operatore. |
+| Relais & Châteaux — Nuovi ingressi italiani | 2026-07-22 | 2026-07-22 | P3: Masseria AuraTerrae (Polignano a Mare) e Relais Villa Corallo (Sant'Omero, Abruzzo). Non riproporre senza novità. |
+| Peter Roth (President, Hotel Operations, Corinthia Hotels) | 2026-07-22 | 2026-07-22 | Leadership movement dal 15/07/2026, supervisiona portfolio Corinthia inclusa pipeline italiana. Non riproporre questo movement. |
 
 ---
 
@@ -33,6 +36,44 @@ Ultimo ciclo manuale: 2026-07-21
 | Elemento | Ciclo Identificato | Stato | Azione |
 |----------|------------------|-------|--------|
 | GM Resort 5 stelle Nord Sardegna | 2026-07-20 | Non verificato | Recruiter (Michael Page) non confermato. Gruppo non identificato. Da verificare manualmente prima di qualunque azione. |
+
+---
+
+## Aggiornamento Registro Storico — Ciclo 22/07/2026
+
+**P2 – Alta priorità / posizionamento**
+
+**Masseria Le Taverne, Ostuni (Puglia) — Belmond (LVMH) mette in vendita l'asset**
+- Location: Ostuni, tra centro storico e Rosa Marina, Puglia
+- Positioning: masseria seicentesca in trasformazione in resort extra-lusso, ~20 suite, spa in frantoio ipogeo (~500 mq), tenuta di ~25 ettari di uliveti secolari
+- Ownership/investitore: proprietà Belmond (gruppo LVMH); in vendita tramite processo off-market, ~20 offerte ricevute da fondi e operatori hospitality internazionali; valutazione stimata €50-60 milioni
+- Operatore/brand: Belmond attuale; esito post-vendita non determinato
+- Status: fase decisiva di selezione degli offerenti; asset ancora in ristrutturazione, non operativo
+- Probabilità leadership senior: ALTA — cambio di proprietà su asset extra-lusso comporta ricerca GM
+- Compatibilità: ALTA (resort extra-lusso, componente leisure/destination, Puglia)
+- Contatto: Cushman & Wakefield Italia — team Hospitality Advisory (advisor incaricato della vendita)
+
+**P3 – Monitoraggio**
+
+**Relais & Châteaux — Due nuovi ingressi italiani**
+- Masseria AuraTerrae (Polignano a Mare, Puglia — proprietà famiglia Valentini, 22 camere)
+- Relais Villa Corallo (Sant'Omero, Abruzzo — 11 camere, ristorante Zunica 1880, 1 stella Michelin)
+- Ingresso nel network Relais & Châteaux ufficialmente confermato 15-17/07/2026
+- Proprietà familiari indipendenti, potenziale di ricerca GM esterna basso nel breve termine
+
+**Follow-up rilevanti**
+
+**Lindenhof Naturno — Closing acquisizione formalizzato**
+- Acquisizione da parte di First Atlantic Real Estate + Signal (gruppo Lunelli), tramite Fondo Euregio+ Turismo, formalizzata il 27/05/2026 per €6 milioni
+- Gestione resta alla famiglia Nischler fino all'ingresso previsto di operatore internazionale nel 2027
+- Nessun operatore ancora selezionato, nessuna vacancy pubblicata
+
+**Leadership Movements**
+
+**Peter Roth → President, Hotel Operations, Corinthia Hotels**
+- Nuovo ruolo corporate (sede Londra, dal 15/07/2026), riporta a Group CEO Simon Naudi
+- Supervisiona performance operative dell'intero portfolio Corinthia, inclusa pipeline italiana (Rome, Lake Como/Menaggio 2028, Borgo di Perolla Toscana 2030)
+- Proviene da Jumeirah (Regional VP Middle East), carriera pregressa in Hyatt e Four Seasons
 
 ---
 
